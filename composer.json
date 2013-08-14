@@ -1,0 +1,39 @@
+{
+	"require": {
+		"laravel/framework": "4.0.*",
+		"anahkiasen/former": "dev-master",
+		"goonwood/asldap-auth": "dev-master",
+		"robclancy/presenter": "1.1.*",
+		"prologue/alerts": "dev-master"
+	},
+	"require-dev": {
+		"raveren/kint": "dev-master"
+	},
+	"autoload": {
+		"psr-0": {
+			"Swapshop": "app/"
+		},
+		"classmap": [
+			"app/controllers",
+			"app/commands",
+			"app/database/migrations",
+			"app/database/seeds",
+			"app/tests/TestCase.php"
+		]
+	},
+	"scripts": {
+		"pre-update-cmd": [
+			"php artisan clear-compiled"
+		],
+		"post-install-cmd": [
+			"php artisan optimize"
+		],
+		"post-update-cmd": [
+			"php artisan optimize"
+		]
+	},
+	"config": {
+		"preferred-install": "dist"
+	},
+	"minimum-stability": "dev"
+}
