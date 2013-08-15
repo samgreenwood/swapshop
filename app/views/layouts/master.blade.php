@@ -53,7 +53,7 @@
             <!-- <li class="hidden-phone"><a href="#" role="button">Settings</a></li> -->
             <li id="fat-menu" class="dropdown">
               <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="icon-user"></i> {{$user}}
+                <i class="icon-user"></i> {{$user['username']}}
                 <i class="icon-caret-down"></i>
               </a>
 
