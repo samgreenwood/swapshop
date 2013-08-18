@@ -1,14 +1,10 @@
 <?php namespace Swapshop;
 
 use Illuminate\Support\ServiceProvider;
+use Goonwood\ASLdapAuth\ASLdapUserProvider;
 
 class SwapshopServiceProvider extends ServiceProvider {
 
-	/**
-	 * Register the service provider.
-	 *
-	 * @return void
-	 */
 	public function register()
 	{
 		$this->app->singleton('Swapshop\Repositories\UserRepositoryInterface', 'Swapshop\Repositories\DbUserRepository');

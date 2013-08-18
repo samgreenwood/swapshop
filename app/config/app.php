@@ -117,8 +117,6 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Former\FormerServiceProvider',
 		'Goonwood\ASLdapAuth\ASLdapAuthServiceProvider',
-		'Robbo\Presenter\PresenterServiceProvider',
-		// 'Prologue\Alerts\AlertsServiceProvider'
 
 	),
 

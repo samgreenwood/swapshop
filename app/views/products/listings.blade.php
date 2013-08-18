@@ -6,8 +6,12 @@
 
 <div class="row-fluid">
 	<div class="span3" style="text-align: center;">
+	@if(count($product['images']))
+	<img style="height: 100px; width: auto;" src="/images/products/{{$product['id']}}/{{$product['images'][0]['image']}}">
+	@else
 		<img src="http://placehold.it/100x100">
-		<img src="http://placehold.it/100x100">
+	@endif
+		
 	</div>
 	<div class="span9">
 		<div class="well">

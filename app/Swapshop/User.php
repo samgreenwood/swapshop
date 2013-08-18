@@ -5,7 +5,7 @@ use Illuminate\Auth\Reminders\RemindableInterface;
 
 class User extends \Eloquent implements UserInterface, RemindableInterface {
 	
-	protected $fillable = array('id', 'username', 'firstname', 'surname', 'email');
+	protected $fillable = array('id', 'username', 'firstname', 'surname', 'email', 'signature');
 	
 	public static $rules = array();
 

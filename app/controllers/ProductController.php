@@ -3,8 +3,9 @@
 use Swapshop\Repositories\ProductRepositoryInterface;
 use Swapshop\Repositories\TagRepositoryInterface;
 use Swapshop\Repositories\ImageRepositoryInterface;
-	
+
 use Swapshop\Services\Validators\ProductValidator;
+use Swapshop\Services\FileUploader;
 
 class ProductController extends BaseController {
 
@@ -14,12 +15,13 @@ class ProductController extends BaseController {
 	protected $tagRepository;
 	protected $productValidator;
 
-	public function __construct(ProductRepositoryInterface $productRepository, ProductValidator $productValidator, TagRepositoryInterface $tagRepository, ImageRepositoryInterface $imageRepository)
+	public function __construct(ProductRepositoryInterface $productRepository, ProductValidator $productValidator, TagRepositoryInterface $tagRepository, imageRepositoryInterface $imageRepository)
 	{
 		$this->productRepository = $productRepository;
 		$this->tagRepository = $tagRepository;
-		$this->productValidator = $productValidator;
 		$this->imageRepository = $imageRepository;
+		
+		$this->productValidator = $productValidator;
 	}
 
 	// CRUD Functions
@@ -60,10 +62,25 @@ class ProductController extends BaseController {
 			$product = $this->productRepository->create($input);
 			
 			$tags = Input::get('tags');
-			$images = Input::get('images');
 
 			// attach tags to product
 			$this->productRepository->syncTags($product['id'], $tags);
+
+			if(Input::hasFile('image'))
+			{
+				$imageInput = Input::file('image');
+				$filename = $imageInput->getClientOriginalName();
+				$path = public_path() . '/images/products/' . $product['id'];
+
+				if($imageInput->move($path, $filename))
+				{
+					$image['image'] = $filename;
+					$image['imageable_type'] = "Swapshop\Product";
+					$image['imageable_id'] = $product['id'];
+
+					$uploadedImage = $this->imageRepository->create($image);
+				}	
+			}
 
 			return Redirect::action('ListingController@getCreate');
 		}
@@ -77,9 +94,12 @@ class ProductController extends BaseController {
 	public function getEdit($productID)
 	{
 		$product = $this->productRepository->find($productID);
+		$productTags = $this->productRepository->tagList($product['id']);
+		// dd($productTags);
+
 		$tags = $this->tagRepository->all();
 
-		return View::make('products.edit', compact('product', 'tags'));
+		return View::make('products.edit', compact('product', 'tags', 'productTags'));
 	}
 
 	public function postEdit($productID)
@@ -87,18 +107,18 @@ class ProductController extends BaseController {
 		$input = Input::all();
 
 		$v = new ProductValidator($input);
-		
+
 		if($v->passes())
 		{
 			$this->productRepository->update($productID, $input);
 
 			return Redirect::action('ProductController@getIndex')
-				->with('message','Product Created');
+			->with('message','Product Created');
 		}
 
 		return Redirect::action('ProductController@getEdit')
-			->withErrors($v->errors())
-			->with('error','Error updating Product');
+		->withErrors($v->errors())
+		->with('error','Error updating Product');
 	}
 
 	public function getDelete($productID)
@@ -113,14 +133,14 @@ class ProductController extends BaseController {
 		$this->productRepository->delete($productID);
 
 		return Redirect::action('ProductController@getIndex')
-			->with('message','Product Deleted');
+		->with('message','Product Deleted');
 	}
 
 	// Get listings for Product
 
 	public function getListings($productID)
 	{
-		$product = $this->productRepository->findWith($productID, array('listings','listings.user'));
+		$product = $this->productRepository->findWith($productID, array('listings','listings.user','images'));
 
 		return View::make('products.listings', compact('product'));
 	}

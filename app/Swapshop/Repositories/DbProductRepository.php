@@ -14,9 +14,8 @@ class DbProductRepository extends DbBaseRepository implements ProductRepositoryI
 		return $this->model->find($productID)->tags()->sync($tags);
 	}
 
-	public function syncImages($productID, $images)
+	public function tagList($productID)
 	{
-		return $this->model->find($productID)->images()->sync($images);
+		return $this->model->find($productID)->tags()->lists('tag_id');
 	}
-
 }

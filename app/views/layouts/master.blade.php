@@ -104,7 +104,7 @@
               @yield('content')
           </div>
           <footer>
-            &copy; Air-Stream Wireless 2013
+            &copy; Air-Stream Wireless 2013 | <a href="http://code.ridgehaven.wan/newticket?component=swapshop">Report a bug or request a feature!</a>
             <hr>
           </footer>
           <script src="/lib/bootstrap/js/bootstrap.js"></script>

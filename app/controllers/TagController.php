@@ -103,7 +103,7 @@ class TagController extends BaseController {
 
 	public function getProducts($tagID)
 	{
-		$tag = $this->tagRepository->findWith($tagID, array('products','products.listings'));
+		$tag = $this->tagRepository->findWith($tagID, array('products','products.images', 'products.listings'));
 
 		return View::make('tags.products', compact('tag'));
 	}

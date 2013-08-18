@@ -21,14 +21,23 @@ class UserController extends BaseController {
 
 	public function getDashboard()
 	{
-		return View::make('users.dashboard',compact('user'));
+		$user = $this->userRepository->findWith(Auth::user(), array('listings','listings.product'));
+		
+		return View::make('users.dashboard', compact('user'));
 	}
 
 	public function postDashboard()
 	{
-		$input = Input::all();
+		$input = Input::only('signature');
 
-		dd($input);
+		$updated = $this->userRepository->update(Auth::user(), $input);
+		
+		if($updated)
+		{
+			return Redirect::action('UserController@getDashboard')->with('message', 'User profile updated');
+		}
+
+		return Redirect::action('UserController@getDashboard')->with('message', 'Error updating profile');
 	}
 
 }

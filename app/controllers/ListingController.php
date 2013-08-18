@@ -50,9 +50,9 @@ class ListingController extends BaseController
 			// create listing in data store
 			$listing = $this->listingRepository->create($input);
 	
-			return Redirect::action('ListingController@getShow', $listing['id'])
+			return Redirect::action('ProductController@getListings', $input['product_id'])
 				->with('message','Listing created');
-		}
+		}	
 
 		return Redirect::action('ListingController@getCreate')
 			->withErrors($v->errors)
@@ -61,12 +61,29 @@ class ListingController extends BaseController
 	}
 	public function getEdit($listingID)
 	{
-		
+		$listing = $this->listingRepository->find($listingID);
+		$products = $this->productRepository->all();
+
+		return View::make('listings.edit', compact('listing', 'products'));
 	}
 
 	public function postEdit($listingID)
 	{
+		$input = Input::only('product_id', 'quantity', 'price', 'condition', 'notes');
 
+		$v = new $this->listingValidator($input);
+
+		if($v->passes())
+		{
+			// create listing in data store
+			$listing = $this->listingRepository->update($listingID, $input);
+	
+			return Redirect::action('ProductController@getListings', $input['product_id'])
+				->with('message','Listing created');
+		}	
+
+		return Redirect::action('ListingController@getCreate')
+			->withErrors($v->errors);
 	}
 
 	public function getDelete($listingID)
