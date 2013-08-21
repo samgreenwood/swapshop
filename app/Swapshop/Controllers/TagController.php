@@ -52,11 +52,11 @@ class TagController extends \BaseController {
 		{
 			$this->tagRepository->create($input);
 
-			return Redirect::action('TagController@getIndex')
+			return Redirect::action('Swapshop\Controllers\TagController@getIndex')
 				->with('message','Tag created');
 		}
 
-		return Redirect::action('TagController@getIndex')
+		return Redirect::action('Swapshop\Controllers\TagController@getIndex')
 			->withErrors($v->errors)
 			->with('error','Error creating Tag');
 
@@ -79,11 +79,11 @@ class TagController extends \BaseController {
 		{
 			$this->tagRepository->update($tagID, $input);
 
-			return Redirect::action('TagController@getIndex')
+			return Redirect::action('Swapshop\Controllers\TagController@getIndex')
 				->with('message','Tag Created');
 		}
 
-		return Redirect::action('TagController@getEdit')
+		return Redirect::action('Swapshop\Controllers\TagController@getEdit')
 			->withErrors($v->errors())
 			->with('error','Error updating Tag');
 	}
@@ -99,7 +99,7 @@ class TagController extends \BaseController {
 	{
 		$this->tagRepository->delete($tagID);
 
-		return Redirect::action('TagController@getIndex')
+		return Redirect::action('Swapshop\Controllers\TagController@getIndex')
 			->with('message','Tag Deleted');
 	}
 

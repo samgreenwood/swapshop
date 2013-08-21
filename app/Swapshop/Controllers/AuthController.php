@@ -22,7 +22,7 @@ class AuthController extends \BaseController {
 	{
 		$input = \Input::only('username', 'password');
 
-		if(Auth::attempt($input, true))
+		if(\Auth::attempt($input, true))
 		{
 			$ldapUser = \Auth::user();
 

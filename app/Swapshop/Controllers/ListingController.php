@@ -1,9 +1,5 @@
 <?php namespace Swapshop\Controllers;
 
-use \View;
-use \Redirect;
-use \Input;
-
 use Swapshop\Repositories\ListingRepositoryInterface;
 use Swapshop\Repositories\ProductRepositoryInterface;
 use Swapshop\Repositories\PurchaseRepositoryInterface;
@@ -30,21 +26,21 @@ class ListingController extends \BaseController
 	{
 		$listing = $this->listingRepository->findWith($listingID,array('user'));
 
-		return View::make('listings.show', compact('listing'));
+		return \View::make('listings.show', compact('listing'));
 	}
 
 	public function getCreate()
 	{
 		$products = $this->productRepository->all();
 
-		return View::make('listings.create', compact('products'));
+		return \View::make('listings.create', compact('products'));
 	}
 
 	public function postCreate()
 	{
-		$input = Input::only('product_id', 'quantity', 'price', 'condition', 'notes');
+		$input = \Input::only('product_id', 'quantity', 'price', 'condition', 'notes');
 		
-		$input['user_id'] = Auth::user();
+		$input['user_id'] = \Auth::user();
 		$input['active'] = true;
 		
 		$v = new $this->listingValidator($input);
@@ -54,11 +50,11 @@ class ListingController extends \BaseController
 			// create listing in data store
 			$listing = $this->listingRepository->create($input);
 	
-			return Redirect::action('ProductController@getListings', $input['product_id'])
+			return \Redirect::action('Swapshop\Controllers\ProductController@getListings', $input['product_id'])
 				->with('message','Listing created');
 		}	
 
-		return Redirect::action('ListingController@getCreate')
+		return \Redirect::action('Swapshop\Controllers\ListingController@getCreate')
 			->withErrors($v->errors)
 			->with('error','Error creating Listing');
 
@@ -68,12 +64,12 @@ class ListingController extends \BaseController
 		$listing = $this->listingRepository->find($listingID);
 		$products = $this->productRepository->all();
 
-		return View::make('listings.edit', compact('listing', 'products'));
+		return \View::make('listings.edit', compact('listing', 'products'));
 	}
 
 	public function postEdit($listingID)
 	{
-		$input = Input::only('product_id', 'quantity', 'price', 'condition', 'notes');
+		$input = \Input::only('product_id', 'quantity', 'price', 'condition', 'notes');
 
 		$v = new $this->listingValidator($input);
 
@@ -82,11 +78,11 @@ class ListingController extends \BaseController
 			// create listing in data store
 			$listing = $this->listingRepository->update($listingID, $input);
 	
-			return Redirect::action('ProductController@getListings', $input['product_id'])
+			return \Redirect::action('Swapshop\Controllers\ProductController@getListings', $input['product_id'])
 				->with('message','Listing created');
 		}	
 
-		return Redirect::action('ListingController@getCreate')
+		return \Redirect::action('Swapshop\Controllers\ListingController@getCreate')
 			->withErrors($v->errors);
 	}
 
@@ -112,8 +108,8 @@ class ListingController extends \BaseController
 
 	public function postPurchase($listingID)
 	{
-		$purchaseQuantity = Input::get('quantity');
-		$purchaseTotal = Input::get('total');
+		$purchaseQuantity = \Input::get('quantity');
+		$purchaseTotal = \Input::get('total');
 		
 		$listing = $this->listingRepository->find($listingID);
 
@@ -128,7 +124,7 @@ class ListingController extends \BaseController
 
 		$purchase = $this->purchaseRepository->create($purchase);
 
-		return Redirect::action('purchase.success', compact('purchase'));
+		return \Redirect::action('purchase.success', compact('purchase'));
 
 	}
 

@@ -82,10 +82,10 @@ class ProductController extends \BaseController {
 				}	
 			}
 
-			return \Redirect::action('ListingController@getCreate');
+			return \Redirect::action('Swapshop\Controllers\ListingController@getCreate');
 		}
 
-		return \Redirect::action('ProductController@getCreate')
+		return \Redirect::action('Swapshop\Controllers\ProductController@getCreate')
 			->withErrors($v->errors)
 			->with('error','Error creating Product');
 
@@ -115,7 +115,7 @@ class ProductController extends \BaseController {
 			->with('message','Product Created');
 		}
 
-		return \Redirect::action('ProductController@getEdit')
+		return \Redirect::action('Swapshop\Controllers\ProductController@getEdit')
 		->withErrors($v->errors())
 		->with('error','Error updating Product');
 	}
@@ -131,7 +131,7 @@ class ProductController extends \BaseController {
 	{
 		$this->productRepository->delete($productID);
 
-		return Redirect::action('ProductController@getIndex')
+		return Redirect::action('Swapshop\Controllers\ProductController@getIndex')
 		->with('message','Product Deleted');
 	}
 
