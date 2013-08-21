@@ -1,9 +1,13 @@
-<?php
+<?php namespace Swapshop\Controllers;
+
+use \View;
+use \Redirect;
+use \Input;
 
 use Swapshop\Repositories\UserRepositoryInterface;
 use Swapshop\Services\Validators\UserValidator;
 
-class UserController extends BaseController {	
+class UserController extends \BaseController {	
 	
 	public $restful = true;
 
@@ -21,7 +25,7 @@ class UserController extends BaseController {
 
 	public function getDashboard()
 	{
-		$user = $this->userRepository->findWith(Auth::user(), array('listings','listings.product'));
+		$user = $this->userRepository->findWith(\Auth::user(), array('listings','listings.product'));
 		
 		return View::make('users.dashboard', compact('user'));
 	}

@@ -1,9 +1,13 @@
-<?php
+<?php namespace Swapshop\Controllers;
+
+use \View;
+use \Redirect;
+use \Input;
 
 use Swapshop\Repositories\TagRepositoryInterface;
 use Swapshop\Services\Validators\TagValidator;
 
-class TagController extends BaseController {
+class TagController extends \BaseController {
 
 	public $restful = true;
 

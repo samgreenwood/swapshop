@@ -6,7 +6,7 @@
 <div class="row-fluid">
 	<div class="span3">
 		<h2>User Signature</h2>
-		{{Former::open(URL::action('UserController@postDashboard'))}}
+		{{Former::open(URL::action('Swapshop\Controllers\UserController@postDashboard'))}}
 		{{Former::populate($user)}}
 		{{Former::textarea('signature','')->rows('5')->cols('80')->raw()}}
 	</div>
@@ -28,8 +28,8 @@
 					<td>{{$listing['quantity']}}</td>
 					<td>${{number_format($listing['price'],2)}}</td>
 					<td>
-					{{Html::LinkAction('ListingController@getEdit','Edit' ,$listing['id'], array('class' => 'btn btn-success'))}}
-					{{Html::LinkAction('ListingController@getDelete','Delete' ,$listing['id'], array('class' => 'btn btn-danger'))}}
+					{{Html::LinkAction('Swapshop\Controllers\ListingController@getEdit','Edit' ,$listing['id'], array('class' => 'btn btn-success'))}}
+					{{Html::LinkAction('Swapshop\Controllers\ListingController@getDelete','Delete' ,$listing['id'], array('class' => 'btn btn-danger'))}}
 					</td>
 					@endforeach
 				</tr>

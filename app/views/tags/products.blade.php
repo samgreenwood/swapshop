@@ -19,7 +19,7 @@
 					
 					<h2>{{$product['name']}}</h2>
 					<p><a href="{{$product['pdf']}}">Information</a></p>
-					<p>{{HTML::LinkAction('ProductController@getListings', 'View Listings', $product['id'],array('class' => 'btn btn-primary'))}}</p>
+					<p>{{HTML::LinkAction('Swapshop\Controllers\ProductController@getListings', 'View Listings', $product['id'],array('class' => 'btn btn-primary'))}}</p>
 					<p>{{$product['description']}}</p>
 				</div>
 			@endif

@@ -4,7 +4,7 @@
 
 <h1>Create Listing</h1>
 <hr>
-{{Former::open(URL::action('ListingController@postCreate'))}}
+{{Former::open(URL::action('Swapshop\Controllers\ListingController@postCreate'))}}
 @include('listings._form')
 {{Former::close()}}
 @stop

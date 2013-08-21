@@ -1,8 +1,8 @@
-<?php
+<?php namespace Swapshop\Controllers;
 
 use Swapshop\Repositories\UserRepositoryInterface;
 
-class AuthController extends BaseController {
+class AuthController extends \BaseController {
 
 	public $restful = true;
 	
@@ -15,16 +15,16 @@ class AuthController extends BaseController {
 
 	public function getLogin()
 	{
-		return View::make('auth.login');
+		return \View::make('auth.login');
 	}
 
 	public function postLogin()
 	{
-		$input = Input::only('username', 'password');
+		$input = \Input::only('username', 'password');
 
 		if(Auth::attempt($input, true))
 		{
-			$ldapUser = Auth::user();
+			$ldapUser = \Auth::user();
 
 			// See if user exists in database
 			$user = $this->userRepository->find($ldapUser->id);
@@ -43,17 +43,17 @@ class AuthController extends BaseController {
 
 			// set Auth::user to the Eloquent instance of our model so we can access additional properties
 			// need to think of implimentation
-			return Redirect::intended(URL::action('UserController@getDashboard'));
+			return \Redirect::intended(\URL::action('Swapshop\Controllers\UserController@getDashboard'));
 
 		}
 
-		return Redirect::action('AuthController@getLogin')->with('error','Incorrect username or password');
+		return \Redirect::action('Swapshop\Controllers\AuthController@getLogin')->with('error','Incorrect username or password');
 	}
 
 	public function getLogout()
 	{
-		Auth::logout();
-		return Redirect::action('AuthController@getLogin');
+		\Auth::logout();
+		return \Redirect::action('Swapshop\Controllers\AuthController@getLogin');
 	}
 
 }

@@ -2,7 +2,7 @@
 
 @section('content')
 <h1>Tags</h1>
-{{Html::linkAction('TagController@getCreate','Add Tag')}}
+{{Html::linkAction('Swapshop\Controllers\TagController@getCreate','Add Tag')}}
 <hr>
 @if(count($tags))
 <table class="table datatable">

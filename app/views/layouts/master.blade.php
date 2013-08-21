@@ -58,11 +58,11 @@
               </a>
 
               <ul class="dropdown-menu">
-                <li>{{Html::linkAction('UserController@getDashboard','My Swapshop')}}</li>
+                <li>{{Html::linkAction('Swapshop\Controllers\UserController@getDashboard','My Swapshop')}}</li>
                 <li class="divider"></li>
                 <li><a tabindex="-1" class="visible-phone" href="#">Settings</a></li>
                 <li class="divider visible-phone"></li>
-                <li>{{Html::linkAction('AuthController@getLogout','Logout')}}</li>
+                <li>{{Html::linkAction('Swapshop\Controllers\AuthController@getLogout','Logout')}}</li>
               </ul>
             </li>
 
@@ -75,12 +75,12 @@
 
         <ul class="nav nav-tabs">
           <li><a href="/"><i class="icon-dashboard"></i> <span>Shop</span></a></li>
-          <li><a href="{{URL::action('ProductController@getCreate')}}"><i class="icon-dashboard"></i> <span>Create a Product</span></a></li>
-           <li><a href="{{URL::action('ListingController@getCreate')}}"><i class="icon-dashboard"></i> <span>Create a Listing</span></a></li>
+          <li><a href="{{URL::action('Swapshop\Controllers\ProductController@getCreate')}}"><i class="icon-dashboard"></i> <span>Create a Product</span></a></li>
+           <li><a href="{{URL::action('Swapshop\Controllers\ListingController@getCreate')}}"><i class="icon-dashboard"></i> <span>Create a Listing</span></a></li>
            <li class="dropdown">
              
           </li>
-          <li><a href="{{URL::action('UserController@getDashboard')}}" ><i class="icon-cogs"></i> <span>My SwapShop</span></a></li>
+          <li><a href="{{URL::action('Swapshop\Controllers\UserController@getDashboard')}}" ><i class="icon-cogs"></i> <span>My SwapShop</span></a></li>
           <li style="float: right; padding-right: 20px;">
            
           </li>
@@ -92,7 +92,7 @@
 
         <ul id="dashboard-menu" class="nav nav-list">
          @foreach($tags as $tag)
-         <li><a href="{{URL::action('TagController@getProducts', $tag['id'])}}"><i class="icon-star"></i> <span>{{$tag['name']}}</span></a></li>
+         <li><a href="{{URL::action('Swapshop\Controllers\TagController@getProducts', $tag['id'])}}"><i class="icon-star"></i> <span>{{$tag['name']}}</span></a></li>
          @endforeach
 
         </ul>

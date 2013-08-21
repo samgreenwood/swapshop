@@ -11,14 +11,20 @@
 |
 */
 
+
+Route::group(array('prefix' => 'api'), function()
+{
+	Route::controller('users','Swapshop\Controllers\Api\UserController');
+});
+
 Route::group(array('before' => 'auth'), function()
 {
-	Route::controller('tags','TagController');
-	Route::controller('products','ProductController');
-	Route::controller('listings','ListingController');
+	Route::controller('tags','Swapshop\Controllers\TagController');
+	Route::controller('products','Swapshop\Controllers\ProductController');
+	Route::controller('listings','Swapshop\Controllers\ListingController');
 	
-	Route::controller('/','UserController');
+	Route::controller('/','Swapshop\Controllers\UserController');
 
 });
 
-Route::controller('/', 'AuthController');
+Route::controller('/', 'Swapshop\Controllers\AuthController');

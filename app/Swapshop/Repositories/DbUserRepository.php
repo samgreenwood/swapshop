@@ -8,6 +8,16 @@ class DbUserRepository extends DbBaseRepository implements UserRepositoryInterfa
 	{
 		parent::__construct($model);
 	}
+
+	public function findByUsername($username)
+	{
+		return $this->model->where('username','=',$username)->first()->toArray();
+	}
+
+	public function findByUsernameWith($username, array $with)
+	{
+		return $this->model->where('username','=',$username)->with($with)->first()->toArray();
+	}
 	
 }
 

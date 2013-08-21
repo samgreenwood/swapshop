@@ -1,11 +1,15 @@
-<?php 
+<?php namespace Swapshop\Controllers;
+
+use \View;
+use \Redirect;
+use \Input;
 
 use Swapshop\Repositories\ListingRepositoryInterface;
 use Swapshop\Repositories\ProductRepositoryInterface;
 use Swapshop\Repositories\PurchaseRepositoryInterface;
 use Swapshop\Services\Validators\ListingValidator;
 
-class ListingController extends BaseController
+class ListingController extends \BaseController
 {
 	protected $listingRepository;
 	protected $productRepository;
@@ -123,7 +127,6 @@ class ListingController extends BaseController
 		$purchase['user_id'] = Auth::user();
 
 		$purchase = $this->purchaseRepository->create($purchase);
-		dd($purchase);
 
 		return Redirect::action('purchase.success', compact('purchase'));
 
