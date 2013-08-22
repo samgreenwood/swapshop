@@ -103,7 +103,7 @@ class ProductController extends \BaseController {
 
 	public function postEdit($productID)
 	{
-		$input = \Input::all();
+		$input = \Input::only('name', 'pdf', 'description');
 
 		$v = new ProductValidator($input);
 
@@ -111,13 +111,18 @@ class ProductController extends \BaseController {
 		{
 			$this->productRepository->update($productID, $input);
 
-			return \Redirect::action('ProductController@getIndex')
-			->with('message','Product Created');
+			$tags = \Input::get('tags');
+
+			// attach tags to product
+			$this->productRepository->syncTags($product['id'], $tags);
+
+			return \Redirect::action('Swapshop\Controllers\ProductController@getIndex')
+				->with('message','Product Updated');
 		}
 
 		return \Redirect::action('Swapshop\Controllers\ProductController@getEdit')
-		->withErrors($v->errors())
-		->with('error','Error updating Product');
+			->withErrors($v->errors())
+			->with('error','Error updating Product');
 	}
 
 	public function getDelete($productID)
