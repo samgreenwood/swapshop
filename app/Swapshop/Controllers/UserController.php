@@ -34,14 +34,14 @@ class UserController extends \BaseController {
 	{
 		$input = Input::only('signature');
 
-		$updated = $this->userRepository->update(Auth::user(), $input);
+		$updated = $this->userRepository->update(\Auth::user(), $input);
 		
 		if($updated)
 		{
-			return Redirect::action('UserController@getDashboard')->with('message', 'User profile updated');
+			return Redirect::action('Swapshop\Controllers\UserController@getDashboard')->with('message', 'User profile updated');
 		}
 
-		return Redirect::action('UserController@getDashboard')->with('message', 'Error updating profile');
+		return Redirect::action('Swapshop\Controllers\UserController@getDashboard')->with('message', 'Error updating profile');
 	}
 
 }
