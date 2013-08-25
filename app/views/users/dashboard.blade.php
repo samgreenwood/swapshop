@@ -18,6 +18,7 @@
 					<th>Product</th>
 					<th>Quantity</th>
 					<th>Price</th>
+					<th>Active</th>
 					<th>&nbsp;</th>
 				</tr>
 			</thead>
@@ -27,8 +28,12 @@
 					<td>{{$listing['product']['name']}}</td>
 					<td>{{$listing['quantity']}}</td>
 					<td>${{number_format($listing['price'],2)}}</td>
+					<td>{{$listing['active'] ? 'Yes' : 'No'}}</td>
 					<td>
 					{{Html::LinkAction('Swapshop\Controllers\ListingController@getEdit','Edit' ,$listing['id'], array('class' => 'btn btn-success'))}}
+					@if($listing['active'])
+						{{Html::LinkAction('Swapshop\Controllers\ListingController@getMarkSold', 'Mark Sold', $listing['id'], array('class' => 'btn btn-danger'))}}
+					@endif
 					</td>
 				</tr>
 				@endforeach
