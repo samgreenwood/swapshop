@@ -92,7 +92,7 @@
 
         <ul id="dashboard-menu" class="nav nav-list">
          @foreach($tags as $tag)
-         <li><a href="{{URL::action('Swapshop\Controllers\TagController@getProducts', $tag['id'])}}"><i class="icon-star"></i> <span>{{$tag['name']}}</span></a></li>
+         <li><a href="{{URL::action('Swapshop\Controllers\TagController@getProducts', $tag['slug'])}}"><i class="icon-star"></i> <span>{{$tag['name']}}</span></a></li>
          @endforeach
 
         </ul>

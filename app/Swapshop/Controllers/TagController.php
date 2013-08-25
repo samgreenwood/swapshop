@@ -50,6 +50,8 @@ class TagController extends \BaseController {
 
 		if($v->passes())
 		{
+			$input['slug'] = \Str::slug($input['name']);
+
 			$this->tagRepository->create($input);
 
 			return Redirect::action('Swapshop\Controllers\TagController@getIndex')
@@ -77,6 +79,8 @@ class TagController extends \BaseController {
 		
 		if($v->passes())
 		{
+			$input['slug'] = \Str::slug($input['name']);
+			
 			$this->tagRepository->update($tagID, $input);
 
 			return Redirect::action('Swapshop\Controllers\TagController@getIndex')
@@ -107,12 +111,18 @@ class TagController extends \BaseController {
 
 	public function getProducts($tagID)
 	{
-		$tag = $this->tagRepository->findWith($tagID, array('products','products.images', 'products.listings'));
-
+		$with = array('products','products.images', 'products.listings');
+		
+		if(is_numeric($tagID))
+		{
+			$tag = $this->tagRepository->findWith($tagID, $with);
+		}
+		else
+		{
+			$tag = $this->tagRepository->findSlugWith($tagID, $with);
+		}
+	
 		return View::make('tags.products', compact('tag'));
 	}
 
-
 }
-
-

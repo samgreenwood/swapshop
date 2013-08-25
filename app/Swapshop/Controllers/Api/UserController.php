@@ -11,11 +11,6 @@ class UserController extends \BaseController
 		$this->userRepository = $userRepository;
 	}
 
-	public function getIndex()
-	{
-		return "index";
-	}	
-
 	public function getListings($id)
 	{
 		if(is_numeric($id))
