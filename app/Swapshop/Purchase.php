@@ -2,7 +2,7 @@
 
 class Purchase extends \Eloquent {
 
-	protected $fillable = array('user_id', 'listing_id', 'quantity');
+	protected $fillable = array('user_id', 'listing_id', 'quantity', 'message');
 
 	protected $table = "swapshop_purchases";
 
@@ -11,16 +11,10 @@ class Purchase extends \Eloquent {
 		return $this->belongsTo('Swapshop\Listing');
 	}
 
-	public function buyer()
+	public function user()
 	{
 		return $this->belongsTo('Swapshop\User');
 	}
-
-	public function seller()
-	{
-		return $this->listing()->user;
-	}
-
 }
 
 ?>

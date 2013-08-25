@@ -395,17 +395,20 @@
                                                     <tr mc:repeatable>
                                                         <td valign="top">
                                                         	<div mc:edit="postcard_heading00">
-                                                                <h1 class="h1">Swap Shop Sale!</h1>
+                                                                <h1 class="h1">Swapshop Sale!</h1>
                                                             </div>
                                                             <div mc:edit="std_content00">
-                                                            	<p>You've made a sale to {{$purchase->user->username}}</p>
+                                                            	<p>You've made a sale to {{$purchase['user']['username']}}, you can contact them via <a href="mailto:{{$purchase['user']['email']}}">{{$purchase['user']['email']}}</a></p>
                                                     			<p>
-	                                                    			<strong>Item: </strong>{{$purchase->listing->product->name}}<br>
-	                                                    			<strong>Price: </strong>${{number_format($purchase->listing->price,2)}}<br>
-	                                                    			<strong>Quantity:</strong>{{$purchase->quantity}}<br>
-	                                                    			<strong>Total:</strong>${{number_format($purchase->quantity * $purchase->listing->price,2)}}
+
+	                                                    			<strong>Item: </strong>{{$purchase['listing']['product']['name']}}<br />
+	                                                    			<strong>Price: </strong> ${{number_format($purchase['listing']['price'])}}<br />
+	                                                    			<strong>Quantity:</strong>{{$purchase['quantity']}}<br />
+	                                                    			<strong>Total:</strong> ${{number_format($purchase['quantity'] * $purchase['listing']['price'],2)}}<br />
+                                                 					<strong>Message:</strong>{{$purchase['message']}}
+
                                                     			</p>
-                                                    			<p>Thanks for using Swap Shop!</p>
+                                                    			<p>Thanks for using Swapshop!</p>
                                                             </div>
                                                         </td>
                                                     </tr>

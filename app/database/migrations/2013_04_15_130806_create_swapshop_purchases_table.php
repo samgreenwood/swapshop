@@ -19,6 +19,7 @@ class CreateSwapshopPurchasesTable extends Migration {
 			$table->foreign('listing_id')->references('id')->on('swapshop_listings');
 			$table->integer('user_id')->unsigned();
 			$table->foreign('user_id')->references('id')->on('swapshop_users');
+			$table->text('message')->nullable();
 			$table->timestamps();
 		});
 	}

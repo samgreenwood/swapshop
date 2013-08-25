@@ -96,13 +96,20 @@ class ListingController extends \BaseController
 		
 	}
 
+	public function getMarkSold($listingID)
+	{
+		$this->listingRepository->update($listingID, array('active' => false, 'quantity' => 0));
+
+		return \Redirect::back();
+	}
+
 	// Purchase Listing
 
 	public function getPurchase($listingID)
 	{
 		$listing = $this->listingRepository->findWith($listingID, array('product','seller'));
 
-		return View::make('listings.purchase', compact('listing'));
+		return \View::make('listings.purchase', compact('listing'));
 
 	}
 
@@ -110,21 +117,38 @@ class ListingController extends \BaseController
 	{
 		$purchaseQuantity = \Input::get('quantity');
 		$purchaseTotal = \Input::get('total');
-		
+		$message = \Input::get('message');
+
 		$listing = $this->listingRepository->find($listingID);
 
 		// remove purchased quantity from listing
 		$quantity = $listing['quantity'] - $purchaseQuantity;
 		$this->listingRepository->update($listingID, compact('quantity'));
 
+		// prepare purchase data
 		$purchase['listing_id'] = $listingID;
 		$purchase['total'] = $purchaseTotal;
 		$purchase['quantity'] = $purchaseQuantity;
-		$purchase['user_id'] = Auth::user();
+		$purchase['user_id'] = \Auth::user();
+		$purchase['message'] = $message;
 
+		// create purchase in database
 		$purchase = $this->purchaseRepository->create($purchase);
+		
+		// retrieve purchase with buyer and seller from the database
+		$purchase = $this->purchaseRepository->findWith($purchase['id'], array('user', 'listing.user','listing.product'));
+		
+		$sellerEmail = $purchase['listing']['user']['email'];
+		$buyerEmail = $purchase['user']['email'];
 
-		return \Redirect::action('purchase.success', compact('purchase'));
+		
+		// send email
+		\Mail::queue('emails.purchase', compact('purchase'), function($message) use ($sellerEmail, $buyerEmail) {
+			$message->from($buyerEmail);
+			$message->to($sellerEmail)->subject('Swapshop Sale');
+		});
+
+		return \View::make('purchases.success', compact('purchase'));
 
 	}
 
