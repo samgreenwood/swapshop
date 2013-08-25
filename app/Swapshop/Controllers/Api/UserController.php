@@ -24,7 +24,17 @@ class UserController extends \BaseController
 		
 		$listings = $user['listings'];
 
-		return \Response::json($listings);
+		$listingsJson = array();
+
+		foreach($listings as $listing)
+		{
+			if($listing['active'])
+			{
+				array_push($listingsJson, $listing);
+			}
+		}
+
+		return \Response::json($listingsJson);
 	}
 
 }
