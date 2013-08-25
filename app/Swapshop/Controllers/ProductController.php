@@ -62,38 +62,28 @@ class ProductController extends \BaseController {
 			$product = $this->productRepository->create($input);
 			
 			$tags = \Input::get('tags');
-
-			// attach tags to product
-			$this->productRepository->syncTags($product['id'], $tags);
-
-			if(\Input::hasFile('image'))
+			
+			if(!is_array($tags))
 			{
-				$imageInput = \Input::file('image');
-				$filename = $imageInput->getClientOriginalName();
-				$path = public_path() . '/images/products/' . $product['id'];
-
-				if($imageInput->move($path, $filename))
-				{
-					$image['image'] = $filename;
-					$image['imageable_type'] = "Swapshop\Product";
-					$image['imageable_id'] = $product['id'];
-
-					$uploadedImage = $this->imageRepository->create($image);
-				}	
+				$tags = array();	
 			}
+
+			$this->productRepository->syncTags($product['id'], $tags);
+			
+			$this->uploadImages($product['id']);
 
 			return \Redirect::action('Swapshop\Controllers\ListingController@getCreate');
 		}
 
 		return \Redirect::action('Swapshop\Controllers\ProductController@getCreate')
-			->withErrors($v->errors)
-			->with('error','Error creating Product');
+		->withErrors($v->errors)
+		->with('error','Error creating Product');
 
 	}
 
 	public function getEdit($productID)
 	{
-		$product = $this->productRepository->find($productID);
+		$product = $this->productRepository->findWith($productID, array('images'));
 		$productTags = $this->productRepository->tagList($product['id']);
 
 		$tags = $this->tagRepository->all();
@@ -113,16 +103,22 @@ class ProductController extends \BaseController {
 
 			$tags = \Input::get('tags');
 
-			// attach tags to product
-			$this->productRepository->syncTags($product['id'], $tags);
+			if(!is_array($tags))
+			{
+				$tags = array();	
+			}
+			
+			$this->productRepository->syncTags($productID, $tags);
+
+			$this->uploadImages($productID);
 
 			return \Redirect::action('Swapshop\Controllers\ProductController@getIndex')
 				->with('message','Product Updated');
 		}
 
 		return \Redirect::action('Swapshop\Controllers\ProductController@getEdit')
-			->withErrors($v->errors())
-			->with('error','Error updating Product');
+		->withErrors($v->errors())
+		->with('error','Error updating Product');
 	}
 
 	public function getDelete($productID)
@@ -149,5 +145,25 @@ class ProductController extends \BaseController {
 		return \View::make('products.listings', compact('product'));
 	}
 
+	// Handle image uploads
+
+	private function uploadImages($productID)
+	{
+		if(\Input::hasFile('image'))
+		{
+			$imageInput = \Input::file('image');
+			$filename = $imageInput->getClientOriginalName();
+			$path = public_path() . '/images/products/' . $productID;
+
+			if($imageInput->move($path, $filename))
+			{
+				$image['image'] = $filename;
+				$image['imageable_type'] = "Swapshop\Product";
+				$image['imageable_id'] = $productID;
+
+				$uploadedImage = $this->imageRepository->create($image);
+			}	
+		}
+	}
 
 }

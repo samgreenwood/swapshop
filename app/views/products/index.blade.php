@@ -17,7 +17,10 @@
 		<tr>
 			<td>{{$product['name']}}</td>
 			<td>{{$product['pdf']}}</td>
-			<td>{{Html::linkAction('Swapshop\Controllers\ProductController@getEdit', 'Edit', $product['id'], array('class' => 'btn btn-success'))}}</td>
+			<td>
+			{{Html::linkAction('Swapshop\Controllers\ProductController@getEdit', 'Edit', $product['id'], array('class' => 'btn btn-success'))}}
+			{{Html::linkAction('Swapshop\Controllers\ProductController@getDelete', 'Delete', $product['id'], array('class' => 'btn btn-danger'))}}
+			</td>
 		</tr>
 		@endforeach
 	</tbody>

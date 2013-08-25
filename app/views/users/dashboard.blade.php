@@ -29,10 +29,9 @@
 					<td>${{number_format($listing['price'],2)}}</td>
 					<td>
 					{{Html::LinkAction('Swapshop\Controllers\ListingController@getEdit','Edit' ,$listing['id'], array('class' => 'btn btn-success'))}}
-					{{Html::LinkAction('Swapshop\Controllers\ListingController@getDelete','Delete' ,$listing['id'], array('class' => 'btn btn-danger'))}}
 					</td>
-					@endforeach
 				</tr>
+				@endforeach
 			</tbody>
 		</table>
 	</div>
