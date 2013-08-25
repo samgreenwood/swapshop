@@ -82,7 +82,10 @@
           </li>
           <li><a href="{{URL::action('Swapshop\Controllers\UserController@getDashboard')}}" ><i class="icon-cogs"></i> <span>My SwapShop</span></a></li>
           <li style="float: right; padding-right: 20px;">
-           
+          {{Former::inline_open(URL::action('Swapshop\Controllers\SearchController@postIndex'))->style('margin-bottom: 0px; padding-top: 5px;')}}
+          {{Former::text('search')}}
+          {{Former::submit()->class('btn btn-primary btn-small')->value('Search')}}
+          {{Former::close()}}
           </li>
         </ul>
       </div>

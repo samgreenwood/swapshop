@@ -23,6 +23,7 @@ Route::group(array('before' => 'auth'), function()
 	Route::controller('products','Swapshop\Controllers\ProductController');
 	Route::controller('listings','Swapshop\Controllers\ListingController');
 	Route::controller('images','Swapshop\Controllers\ImageController');
+	Route::controller('search','Swapshop\Controllers\SearchController');
 	
 	Route::controller('/','Swapshop\Controllers\UserController');
 
