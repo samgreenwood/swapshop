@@ -1,4 +1,4 @@
-rray(
+Array(
 
 	/*
 	|--------------------------------------------------------------------------
@@ -53,7 +53,7 @@ rray(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'swapshop
+			'database'  => 'database',
 			'username'  => 'root',
 			'password'  => '',
 			'charset'   => 'utf8',
