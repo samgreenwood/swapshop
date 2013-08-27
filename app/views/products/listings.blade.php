@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-<h1>Listings for {{$product['name']}}</h1>
+<h1>{{$product['name']}}</h1>
 <hr />
 
 <div class="row-fluid">
@@ -9,7 +9,7 @@
 	@if(count($product['images']))
 	<img style="height: 100px; width: auto;" src="/images/products/{{$product['id']}}/{{$product['images'][0]['image']}}">
 	@else
-		<img src="http://placehold.it/100x100">
+		<img src="/images/holder.js/100x100">
 	@endif
 		
 	</div>

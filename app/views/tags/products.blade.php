@@ -14,13 +14,17 @@
 					@if(count($product['images']))
 					<img src="/images/products/{{$product['id']}}/{{$product['images'][0]['image']}}" style="padding-bottom: 5px;">
 					@else
-					<img src="http://placehold.it/300x300" style="padding-bottom: 5px;">
+					<img src="/images/holder.js/300x300" style="padding-bottom: 5px;">
 					@endif
 					
 					<h2>{{$product['name']}}</h2>
-					<p><a href="{{$product['pdf']}}">Information</a></p>
-					<p>{{HTML::LinkAction('Swapshop\Controllers\ProductController@getListings', 'View Listings', $product['id'],array('class' => 'btn btn-primary'))}}</p>
+					<h3>
+						{{$product['listings'][0]['total_quantity']}} available for ${{$product['listings'][0]['min_price']}}
+						{{$product['listings'][0]['min_price'] != $product['listings'][0]['max_price'] ? ' ~ ' . $product['listings'][0]['max_price'] : ''}}
+					</h3>
+					<p>{{HTML::LinkAction('Swapshop\Controllers\ProductController@getListings', $product['listings'][0]['num_listings'] . ' Listing' . ($product['listings'][0]['num_listings'] != 1 ? 's' : ''), $product['id'],array('class' => 'btn btn-primary'))}}</p>
 					<p>{{$product['description']}}</p>
+					<p><a href="{{$product['pdf']}}">More Information</a></p>
 				</div>
 			@endif
 		@endforeach

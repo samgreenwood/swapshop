@@ -6,4 +6,8 @@ class ProductValidator extends BaseValidator
 		'name' => 'required',
 		'pdf' => 'required'
 	);
+
+	public static $messages = array(
+		'pdf.required' => 'Item info URL required'
+	);
 }

@@ -56,6 +56,7 @@ class ListingController extends \BaseController
 
 		return \Redirect::action('Swapshop\Controllers\ListingController@getCreate')
 			->withErrors($v->errors)
+			->withInput()
 			->with('error','Error creating Listing');
 
 	}

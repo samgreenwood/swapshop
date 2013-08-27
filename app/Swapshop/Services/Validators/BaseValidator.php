@@ -11,6 +11,8 @@ abstract class BaseValidator
 
     public static $rules;
 
+    public static $messages = array();
+
     public function __construct($data = null)
     {
         $this->data = $data ?: Input::all();
@@ -18,7 +20,7 @@ abstract class BaseValidator
 
     public function passes()
     {
-        $validation = Validator::make($this->data, static::$rules);
+        $validation = Validator::make($this->data, static::$rules, static::$messages);
 
         if ($validation->passes()) return true;
 

@@ -8,7 +8,24 @@ class Product extends \Eloquent {
 
 	public function listings()
 	{
-		return $this->hasMany('Swapshop\Listing');
+		return $this->hasMany('Swapshop\Listing')
+			->where('active', '=', 1)
+			->groupBy('product_id')
+			->select(
+				'id',
+				'quantity',
+				'condition',
+				'price',
+				'notes',
+				'product_id',
+				'user_id',
+				'created_at',
+				'updated_at',
+				\DB::raw('count(product_id) as num_listings'),
+				\DB::raw('sum(quantity) as total_quantity'),
+				\DB::raw('min(price) as min_price'),
+				\DB::raw('max(price) as max_price')
+			);
 	}
 
 	public function tags()
