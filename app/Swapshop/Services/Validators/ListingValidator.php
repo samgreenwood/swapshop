@@ -3,7 +3,7 @@
 class ListingValidator extends BaseValidator
 {
 	public static $rules = array(
-		'quantity' => 'required|decimal',
+		'quantity' => 'required|numeric',
 		'price' => 'required|numeric',
 	);
 }
