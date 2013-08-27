@@ -18,6 +18,7 @@
   <script src="/lib/jquery-1.7.2.min.js" type="text/javascript"></script>
   <script src="/javascripts/site.js" type="text/javascript"></script>
   <script src="/javascripts/select2.js" type="text/javascript"></script>
+  <script src="/images/holder.js" type="text/javascript"></script>
   
   <link rel="stylesheet" type="text/css" href="/stylesheets/theme.css">
   <link rel="stylesheet" type="text/css" href="/stylesheets/select2.css">
@@ -46,70 +47,76 @@
     <body class=""> 
       <!--<![endif]-->
 
-      <div class="navbar">
-        <div class="navbar-inner">
-          <ul class="nav pull-right">
+      <div id="wrap">
+        <div class="navbar">
+          <div class="navbar-inner">
+            <ul class="nav pull-right">
 
-            <!-- <li class="hidden-phone"><a href="#" role="button">Settings</a></li> -->
-            <li id="fat-menu" class="dropdown">
-              <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="icon-user"></i> {{$user['username']}}
-                <i class="icon-caret-down"></i>
-              </a>
+              <!-- <li class="hidden-phone"><a href="#" role="button">Settings</a></li> -->
+              <li id="fat-menu" class="dropdown">
+                <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
+                  <i class="icon-user"></i> {{$user['username']}}
+                  <i class="icon-caret-down"></i>
+                </a>
 
-              <ul class="dropdown-menu">
-                <li>{{Html::linkAction('Swapshop\Controllers\UserController@getDashboard','My Swapshop')}}</li>
-                <li class="divider"></li>
-                <li><a tabindex="-1" class="visible-phone" href="#">Settings</a></li>
-                <li class="divider visible-phone"></li>
-                <li>{{Html::linkAction('Swapshop\Controllers\AuthController@getLogout','Logout')}}</li>
-              </ul>
+                <ul class="dropdown-menu">
+                  <li>{{Html::linkAction('Swapshop\Controllers\UserController@getDashboard','My Swapshop')}}</li>
+                  <li class="divider"></li>
+                  <li><a tabindex="-1" class="visible-phone" href="#">Settings</a></li>
+                  <li class="divider visible-phone"></li>
+                  <li>{{Html::linkAction('Swapshop\Controllers\AuthController@getLogout','Logout')}}</li>
+                </ul>
+              </li>
+
+            </ul>
+            <a class="brand" href="/">Air-Stream Swapshop.</a>
+          </div>
+        </div>
+
+        <div id="main-menu">
+
+          <ul class="nav nav-tabs">
+            <li><a href="/"><i class="icon-dashboard"></i> <span>Shop</span></a></li>
+            <li><a href="{{URL::action('Swapshop\Controllers\ProductController@getCreate')}}"><i class="icon-dashboard"></i> <span>Create a Product</span></a></li>
+             <li><a href="{{URL::action('Swapshop\Controllers\ListingController@getCreate')}}"><i class="icon-dashboard"></i> <span>Create a Listing</span></a></li>
+             <li class="dropdown">
+               
             </li>
+            <li><a href="{{URL::action('Swapshop\Controllers\UserController@getDashboard')}}" ><i class="icon-cogs"></i> <span>My SwapShop</span></a></li>
+            <li style="float: right; padding-right: 20px;">
+            {{Former::inline_open(URL::action('Swapshop\Controllers\SearchController@postIndex'))->style('margin-bottom: 0px; padding-top: 5px;')}}
+            {{Former::text('search')}}
+            {{Former::submit()->class('btn btn-primary btn-small')->value('Search')}}
+            {{Former::close()}}
+            </li>
+          </ul>
+        </div>
+        
+        
+        <div id="sidebar-nav">
+
+          <ul id="dashboard-menu" class="nav nav-list">
+           @foreach($tags as $tag)
+           <li><a href="{{URL::action('Swapshop\Controllers\TagController@getProducts', $tag['slug'])}}"><i class="icon-star"></i> <span>{{$tag['name']}}</span></a></li>
+           @endforeach
 
           </ul>
-          <a class="brand" href="/">Air-Stream Swapshop.</a>
         </div>
-      </div>
-
-      <div id="main-menu">
-
-        <ul class="nav nav-tabs">
-          <li><a href="/"><i class="icon-dashboard"></i> <span>Shop</span></a></li>
-          <li><a href="{{URL::action('Swapshop\Controllers\ProductController@getCreate')}}"><i class="icon-dashboard"></i> <span>Create a Product</span></a></li>
-           <li><a href="{{URL::action('Swapshop\Controllers\ListingController@getCreate')}}"><i class="icon-dashboard"></i> <span>Create a Listing</span></a></li>
-           <li class="dropdown">
-             
-          </li>
-          <li><a href="{{URL::action('Swapshop\Controllers\UserController@getDashboard')}}" ><i class="icon-cogs"></i> <span>My SwapShop</span></a></li>
-          <li style="float: right; padding-right: 20px;">
-          {{Former::inline_open(URL::action('Swapshop\Controllers\SearchController@postIndex'))->style('margin-bottom: 0px; padding-top: 5px;')}}
-          {{Former::text('search')}}
-          {{Former::submit()->class('btn btn-primary btn-small')->value('Search')}}
-          {{Former::close()}}
-          </li>
-        </ul>
-      </div>
-      
-      
-      <div id="sidebar-nav">
-
-        <ul id="dashboard-menu" class="nav nav-list">
-         @foreach($tags as $tag)
-         <li><a href="{{URL::action('Swapshop\Controllers\TagController@getProducts', $tag['slug'])}}"><i class="icon-star"></i> <span>{{$tag['name']}}</span></a></li>
-         @endforeach
-
-        </ul>
-      </div>
-      
-      <div class="content">
-        <div class="container-fluid">
-          <div class="row-fluid">
-              @yield('content')
+        
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row-fluid">
+                @yield('content')
+            </div>
           </div>
-          <footer>
-            &copy; Air-Stream Wireless 2013 | <a href="http://git.sifnt.wan/dragoon/swapshop/issues/new">Report a bug or request a feature!</a>
-            <hr>
-          </footer>
-          <script src="/lib/bootstrap/js/bootstrap.js"></script>
-        </body>
-        </html>
+        </div>
+        <div id="push"></div>
+      </div>
+      <div class="container-fluid" id="footer">
+        <footer class="text-center">
+          &copy; Air-Stream Wireless 2013 | <a href="http://code.sifnt.wan/dragoon/swapshop/issues/new">Report a bug or request a feature!</a>
+        </footer>
+      </div>
+      <script src="/lib/bootstrap/js/bootstrap.js"></script>
+    </body>
+    </html>

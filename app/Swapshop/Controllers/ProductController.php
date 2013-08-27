@@ -77,8 +77,8 @@ class ProductController extends \BaseController {
 
 		return \Redirect::action('Swapshop\Controllers\ProductController@getCreate')
 		->withErrors($v->errors)
+		->withInput()
 		->with('error','Error creating Product');
-
 	}
 
 	public function getEdit($productID)

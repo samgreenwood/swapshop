@@ -6,3 +6,5 @@ composer.lock
 .DS_Store
 /workbench
 .vagrant
+/public/images/*
+!/public/images/holder.js
