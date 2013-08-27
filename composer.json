@@ -3,7 +3,8 @@
 		"laravel/framework": "4.0.*",
 		"anahkiasen/former": "dev-master",
 		"goonwood/asldap-auth": "dev-master",
-		"pda/pheanstalk": "2.0.*"
+		"pda/pheanstalk": "2.0.*",
+		"fideloper/proxy": "dev-master"		
 	},
 	"require-dev": {
 		"raveren/kint": "dev-master"

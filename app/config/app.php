@@ -117,6 +117,7 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Former\FormerServiceProvider',
 		'Goonwood\ASLdapAuth\ASLdapAuthServiceProvider',
+		'Fideloper\Proxy\ProxyServiceProvider',
 
 	),
 
