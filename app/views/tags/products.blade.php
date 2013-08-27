@@ -19,10 +19,10 @@
 					
 					<h2>{{$product['name']}}</h2>
 					<h3>
-						{{$product['listings'][0]['total_quantity']}} available for ${{$product['listings'][0]['min_price']}}
-						{{$product['listings'][0]['min_price'] != $product['listings'][0]['max_price'] ? ' ~ ' . $product['listings'][0]['max_price'] : ''}}
+						{{$product['active_listings'][0]['total_quantity']}} available for ${{$product['active_listings'][0]['min_price']}}
+						{{$product['active_listings'][0]['min_price'] != $product['active_listings'][0]['max_price'] ? ' ~ ' . $product['active_listings'][0]['max_price'] : ''}}
 					</h3>
-					<p>{{HTML::LinkAction('Swapshop\Controllers\ProductController@getListings', $product['listings'][0]['num_listings'] . ' Listing' . ($product['listings'][0]['num_listings'] != 1 ? 's' : ''), $product['id'],array('class' => 'btn btn-primary'))}}</p>
+					<p>{{HTML::LinkAction('Swapshop\Controllers\ProductController@getListings', $product['active_listings'][0]['num_listings'] . ' Listing' . ($product['active_listings'][0]['num_listings'] != 1 ? 's' : ''), $product['id'],array('class' => 'btn btn-primary'))}}</p>
 					<p>{{$product['description']}}</p>
 					<p><a href="{{$product['pdf']}}">More Information</a></p>
 				</div>

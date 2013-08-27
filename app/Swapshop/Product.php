@@ -8,6 +8,11 @@ class Product extends \Eloquent {
 
 	public function listings()
 	{
+		return $this->hasMany('Swapshop\Listing');
+	}
+
+	public function active_listings()
+	{
 		return $this->hasMany('Swapshop\Listing')
 			->where('active', '=', 1)
 			->groupBy('product_id')
@@ -25,7 +30,7 @@ class Product extends \Eloquent {
 				\DB::raw('sum(quantity) as total_quantity'),
 				\DB::raw('min(price) as min_price'),
 				\DB::raw('max(price) as max_price')
-			);
+		);
 	}
 
 	public function tags()
