@@ -11,9 +11,9 @@ class Product extends \Eloquent {
 		return $this->hasMany('Swapshop\Listing');
 	}
 
-	public function active_listings()
+	public function active_listing()
 	{
-		return $this->hasMany('Swapshop\Listing')
+		return $this->hasOne('Swapshop\Listing')
 			->where('active', '=', 1)
 			->groupBy('product_id')
 			->select(

@@ -111,7 +111,7 @@ class TagController extends \BaseController {
 
 	public function getProducts($tagID)
 	{
-		$with = array('products','products.images', 'products.listings', 'products.active_listings');
+		$with = array('products','products.images', 'products.listings', 'products.active_listing');
 		
 		if(is_numeric($tagID))
 		{
