@@ -99,6 +99,6 @@ Auth::extend('asldap', function()
 {
     return new Illuminate\Auth\Guard(
         new Goonwood\ASLdapAuth\ASLdapUserProvider(),
-        App::make('session')
+        App::make('Illuminate\Session\Store')
     );
 });
