@@ -1,11 +1,17 @@
-base_box = ENV['VAGRANT_BOX'] || 'debian7-64'
-base_box_url = ENV['VAGRANT_BOX_URL'] || 'http://www.seaton2.wan/vagrant/debian7-64.box'
+VAGRANTFILE_API_VERSION = "2"
 
-home_path = ENV['HOME']
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+	config.vm.box = "precise64"
+	
+	config.vm.box_url = "http://vps.allmyit.com.au/precise64.box"
 
-Vagrant::Config.run do |config|
-    config.vm.box = base_box
-    config.vm.box_url = base_box_url
-    config.vm.network :hostonly, "10.10.10.10"
-    config.vm.share_folder("vagrant-root", "/vagrant", ".", :extra => 'dmode=777,fmode=777')    
+	config.vm.network :private_network, 
+	{
+		ip: "10.10.10.10",
+	} 
+	
+	config.vm.provision :shell, :path => "vagrant/provision.sh"
+	
+	config.vm.synced_folder ".", "/vagrant", :mount_options => ["dmode=777", "fmode=666"]
+	
 end
