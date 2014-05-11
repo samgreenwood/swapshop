@@ -6,4 +6,6 @@ class FileUploader
 	{
 		
 	}
+
+	public function uploadFiles(
 }

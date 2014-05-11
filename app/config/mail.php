@@ -28,7 +28,7 @@ return array(
 	|
 	*/
 
-	'host' => 'smtp.gmail.com',
+	'host' => 'smtp.mandrillapp.com',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => 'as.swapshop@gmail.com', 'name' => 'Air-Stream Swapshop'),
+	'from' => array('address' => 'swapshop@air-stream.org', 'name' => 'Air-Stream Swapshop'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return array(
 	|
 	*/
 
-	'username' => 'as.swapshop@gmail.com',
+	'username' => 'sam@samgreenwood.me',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -93,6 +93,6 @@ return array(
 	|
 	*/
 
-	'password' => 'oeuLHGt6',
+	'password' => 'mFvZFCaW9Ieb-h1g5CSw8A',
 
 );

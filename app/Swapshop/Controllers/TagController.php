@@ -1,128 +1,93 @@
 <?php namespace Swapshop\Controllers;
 
-use \View;
-use \Redirect;
-use \Input;
-
-use Swapshop\Repositories\TagRepositoryInterface;
-use Swapshop\Services\Validators\TagValidator;
+use Swapshop\Tag;
 
 class TagController extends \BaseController {
 
-	public $restful = true;
+    protected $tag;
 
-	protected $tagRepository;
-	protected $tagValidator;
-
-	public function __construct(TagRepositoryInterface $tagRepository, TagValidator $tagValidator)
+	public function __construct(Tag $tag)
 	{
-		$this->tagRepository = $tagRepository;
-		$this->tagValidator = $tagValidator;
+	    $this->tag = $tag;
 	}
-
-	// CRUD Functions
 
 	public function getIndex()
 	{
+		$tags = $this->tag->all();
 
-		$tags = $this->tagRepository->all();
-
-		return View::make('tags.index', compact('tags'));
+		return \View::make('tags.index', compact('tags'));
 	}
 
 	public function getShow($tagID)
 	{
-		$tag = $this->tagRepository->find($tagID);
+		$tag = $this->tag->findOrFail($tagID);
 
-		return View::make('tags.show', compact('tag'));
+		return \View::make('tags.show', compact('tag'));
 	}
 
 	public function getCreate()
 	{
-		return View::make('tags.create');
+		return \View::make('tags.create');
 	}
 
-	public function postCreate()
+	public function postStore()
 	{
-		$input = Input::all();
+		$input = \Input::all();
+        
+        $tag = $this->tag->newInstance();
 
-		$v = new $this->tagValidator($input);
+        $tag->fill($input);
 
-		if($v->passes())
-		{
-			$input['slug'] = \Str::slug($input['name']);
+        if($tag->save())
+        {
+            return \Redirect::route('tags.index')
+                ->withMessage('Tag Created Successfully');
+        }
 
-			$this->tagRepository->create($input);
-
-			return Redirect::action('Swapshop\Controllers\TagController@getIndex')
-				->with('message','Tag created');
-		}
-
-		return Redirect::action('Swapshop\Controllers\TagController@getIndex')
-			->withErrors($v->errors)
-			->with('error','Error creating Tag');
-
+        return \Redirect::back()
+            ->withErrors($tag->errors())
+            ->withError('Error creating Tag');
 	}
 
 	public function getEdit($tagID)
 	{
-		$tag = $this->tagRepository->find($tagID);
+		$tag = $this->tag->findOrFail($tagID);
 
-		return View::make('tags.edit', compact('tag'));
+		return \View::make('tags.edit', compact('tag'));
 	}
 
-	public function postEdit($tagID)
+	public function putUpdate($tagID)
 	{
-		$input = Input::all();
+		$input = \Input::all();
+        
+        $tag = $this->tag->find($tagID);
 
-		$v = new TagValidator($input);
-		
-		if($v->passes())
-		{
-			$input['slug'] = \Str::slug($input['name']);
-			
-			$this->tagRepository->update($tagID, $input);
+        $tag->fill($input);
 
-			return Redirect::action('Swapshop\Controllers\TagController@getIndex')
-				->with('message','Tag Created');
-		}
+        if($tag->save())
+        {
+            return \Redirect::route('tags.index')
+                ->withMessage('Tag Created Successfully');
+        }
 
-		return Redirect::action('Swapshop\Controllers\TagController@getEdit')
-			->withErrors($v->errors())
-			->with('error','Error updating Tag');
+        return \Redirect::back()
+            ->withErrors($tag->errors())
+            ->withError('Error updating Tag');
+
 	}
 
 	public function getDelete($tagID)
 	{
-		$tag = $this->tagRepository->find($tagID);
+		$tag = $this->tag->findOrFail($tagID);
 
-		return View::make('tags.delete', compact('tag'));
+		return \View::make('tags.delete', compact('tag'));
 	}
 
 	public function deleteDelete($tagID)
 	{
-		$this->tagRepository->delete($tagID);
+	    $this->tag->where('id', $tagID)->delete();
 
-		return Redirect::action('Swapshop\Controllers\TagController@getIndex')
-			->with('message','Tag Deleted');
+		return \Redirect::route('tags.index')
+			->withMessage('Tag Deleted');
 	}
-
-	// Get listings for Tag
-
-	public function getProducts($tagID)
-	{
-		$with = array('products','products.images', 'products.listings', 'products.active_listing');
-		
-		if(is_numeric($tagID))
-		{
-			$tag = $this->tagRepository->findWith($tagID, $with);
-		}
-		else
-		{
-			$tag = $this->tagRepository->findSlugWith($tagID, $with);
-		}
-	
-		return View::make('tags.products', compact('tag'));
-	}
-
 }

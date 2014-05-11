@@ -1,6 +1,8 @@
 <?php namespace Swapshop;
 
-class Listing extends \Eloquent {
+use LaravelBook\Ardent\Ardent;
+
+class Listing extends Ardent {
 
 	protected $fillable = array('active', 'quantity', 'price', 'condition', 'notes', 'product_id', 'user_id');
 

@@ -2,10 +2,10 @@
 
 @section('content')
 <h1>Tags</h1>
-{{Html::linkAction('Swapshop\Controllers\TagController@getCreate','Add Tag')}}
+<a href="/tags/create" class="btn btn-primary">Add Tag</a>
 <hr>
 @if(count($tags))
-<table class="table datatable">
+<table class="table">
 	<thead>
 		<tr>
 			<th>Name</th>
@@ -15,9 +15,9 @@
 	<tbody>
 		@foreach($tags as $tag)
 		<tr>
-			<td>{{$tag['name']}}</td>
-			<td><a class="btn btn-success" href="/tags/edit/{{$tag['id']}}">Edit</a>
-			<a class="btn btn-danger" href="/tags/delete/{{$tag['id']}}">Delete</a></td>
+			<td>{{$tag->name}}</td>
+			<td><a class="btn btn-success" href="/tags/{{$tag->id}}/edit">Edit</a>
+			<a class="btn btn-danger" href="/tags/{{$tag->id}}/delete">Delete</a></td>
 		</tr>
 		@endforeach
 	</tbody>

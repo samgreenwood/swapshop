@@ -1,13 +1,14 @@
 {
 	"require": {
-		"laravel/framework": "4.0.*",
-		"anahkiasen/former": "dev-master",
+		"laravel/framework": "4.1.*",
+		"anahkiasen/former": "3.0.*",
 		"goonwood/asldap-auth": "dev-master",
 		"pda/pheanstalk": "2.0.*",
-		"fideloper/proxy": "dev-master"		
+		"fideloper/proxy": "2.0.*",
+		"laravelbook/ardent": "2.4.*"
 	},
 	"require-dev": {
-		"raveren/kint": "dev-master"
+        "barryvdh/laravel-debugbar": "1.*"
 	},
 	"autoload": {
 		"psr-0": {
@@ -15,7 +16,6 @@
 		},
 		"classmap": [
 			"app/controllers",
-			"app/commands",
 			"app/database/migrations",
 			"app/database/seeds",
 			"app/tests/TestCase.php"

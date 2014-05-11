@@ -1,39 +1,37 @@
 @extends('layouts.master')
 
 @section('content')
-<h1>Dashboard</h1>
+<h1>My Swapshop</h1>
 <hr />
 <div class="row-fluid">
-	<div class="span3">
-		<h2>User Signature</h2>
-		{{Former::open(URL::action('Swapshop\Controllers\UserController@postDashboard'))}}
-		{{Former::populate($user)}}
-		{{Former::textarea('signature','')->rows('5')->cols('80')->raw()}}
-	</div>
-	<div class="span9">
-		<h2>Your Listings</h2>
+	<div class="span12">
+	    <h2>Listings</h2>
 		<table class="table">
 			<thead>
 				<tr>
 					<th>Product</th>
 					<th>Quantity</th>
+					<th>Condition</th>
 					<th>Price</th>
 					<th>Active</th>
-					<th>&nbsp;</th>
+					<th>Actions</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					@foreach($user['listings'] as $listing)
-					<td>{{$listing['product']['name']}}</td>
-					<td>{{$listing['quantity']}}</td>
-					<td>${{number_format($listing['price'],2)}}</td>
-					<td>{{$listing['active'] ? 'Yes' : 'No'}}</td>
+					@foreach($user->listings as $listing)
+					<td>{{$listing->product->name}}</td>
+					<td>{{$listing->quantity}}</td>
+					<td>{{$listing->condition}}</td>
+					<td>${{number_format($listing->price,2)}}</td>
+					<td>{{$listing->active ? '<i class="icon-ok"></i>' : ''}}</td>
 					<td>
-					{{Html::LinkAction('Swapshop\Controllers\ListingController@getEdit','Edit' ,$listing['id'], array('class' => 'btn btn-success'))}}
-					@if($listing['active'])
-						{{Html::LinkAction('Swapshop\Controllers\ListingController@getMarkSold', 'Mark Sold', $listing['id'], array('class' => 'btn btn-danger'))}}
-					@endif
+	    				<a href="#" class="btn btn-primary"><i class="icon-edit">Edit</i></a>
+	    				@if($listing->active)
+    					<a href="#" class="btn btn-success"><i class="icon-check">Enable</i></a>
+    					@else
+    					<a href="#" class="btn btn-danger"><i class="icon-check">Disable</i></a>
+    					@endif
 					</td>
 				</tr>
 				@endforeach
@@ -42,10 +40,52 @@
 	</div>
 </div>
 <div class="row-fluid">
-	<div class="span12">
-			{{Former::actions()->primary_submit('Submit')->inverse_reset('Reset')}}
-			{{Former::close()}}
-	</div>	
+    <div class="span6">
+    <h2>Sales</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Amount</th>
+                <th>Buyer</th>
+                <th>Payment Sent</th>
+                <th>Payment Recieved</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach($user->sales as $sale)
+        <tr>
+           <td>{{$sale->created_at}}</td> 
+           <td>{{$sale->listing->product}}</td> 
+           <td>{{$sale->quantity}}</td> 
+           <td>{{$sale->amount}}</td>
+           <td>{{$sale->buyer}}</td> 
+           <td>{{$sale->payment_sent}}</td> 
+           <td>{{$sale->payment_recieved}}</td> 
+        </tr>
+        @endforeach
+        </tbody>
+    </table>
+    </div>
+    <div class="span6">
+    <h2>Purchases</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Buyer</th>
+                <th>Payment Sent</th>
+                <th>Payment Recieved</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+ 
+    </div>
 </div>
-
 @stop

@@ -4,7 +4,7 @@
 
 <h1>Edit Listing</h1>
 <hr>
-{{Former::open(URL::action('Swapshop\Controllers\ListingController@postEdit', $listing['id']))}}
+{{Former::open(URL::route('listings.update', $listing->id))->method('PUT')}}
 {{Former::populate($listing)}}
 @include('listings._form')
 {{Former::close()}}

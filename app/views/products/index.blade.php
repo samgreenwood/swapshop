@@ -2,35 +2,41 @@
 
 @section('content')
 <h1>Products</h1>
+<a href="/products/create" class="btn btn-primary">Add Product</a>
 <hr>
 @if(count($products))
-<table class="table">
+<table class="table dataTable data-table">
 	<thead>
 		<tr>
-			<td>Name</td>
-			<td>Information</td>
-			<td>Actions</td>
+			<th>Name</th>
+		    <th>Tags</th>
+			<th>Actions</th>
 		</tr>
 	</thead>
 	<tbody>
 		@foreach($products as $product)
 		<tr>
-			<td>{{$product['name']}}</td>
-			<td>{{$product['pdf']}}</td>
+			<td>{{$product->name}}</td>
 			<td>
-			{{Html::linkAction('Swapshop\Controllers\ProductController@getEdit', 'Edit', $product['id'], array('class' => 'btn btn-success'))}}
-			{{Html::linkAction('Swapshop\Controllers\ProductController@getDelete', 'Delete', $product['id'], array('class' => 'btn btn-danger'))}}
+			<ul>
+			@foreach($product->tags as $tag)
+            <li>{{$tag->name}}</li>
+			@endforeach
+			</ul>
+			</td>
+			<td>
+			<a class="btn btn-success" href="/products/{{$product->id}}/edit">Edit</a>
+			<a class="btn btn-danger" href="/products/{{$product->id}}/delete">Delete</a>
 			</td>
 		</tr>
 		@endforeach
 	</tbody>
 </table>
+{{$products->links()}}
 @else
 
 <p>Sorry! No products added</p>
 
 @endif
-
-{{Html::linkAction('Swapshop\Controllers\ProductController@getCreate','Add Product')}}
 
 @stop

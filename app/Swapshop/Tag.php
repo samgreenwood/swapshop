@@ -1,10 +1,16 @@
 <?php namespace Swapshop;
 
-class Tag extends \Eloquent	
+use LaravelBook\Ardent\Ardent;
+
+class Tag extends Ardent
 {
 	protected $fillable = array('name', 'slug');
-	
+    
 	protected $table = "swapshop_tags";
+
+	public static $rules = array(
+	    'name' => 'required'
+	);
 		
 	public function products()
 	{

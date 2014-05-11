@@ -3,4 +3,5 @@
 {{Former::number('price','Price ($)')->step('any')->min(0)->required()}}
 {{Former::select('condition','Condition')->options(array('New' => 'New', 'Used' => 'Used'))}}
 {{Former::textarea('notes','Notes')->rows('10')}}
-{{Former::actions()->primary_submit('Submit')->inverse_reset('Reset')}}
+{{Former::submit('Save')->class('btn btn-primary')}}
+<a href="/dashboard" class="btn btn-default">Cancel</a>

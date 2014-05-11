@@ -11,6 +11,11 @@ class Image extends \Eloquent {
 		return $this->morphTo();
 	}
 
+	public function path()
+	{
+	    return '/images/products/' . $this->imageable_id . '/' . $this->image; 
+	}
+
 	public function __toString()
 	{
 		return $this->image;

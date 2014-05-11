@@ -1,156 +1,93 @@
 <?php namespace Swapshop\Controllers;
 
-use Swapshop\Repositories\ListingRepositoryInterface;
-use Swapshop\Repositories\ProductRepositoryInterface;
-use Swapshop\Repositories\PurchaseRepositoryInterface;
-use Swapshop\Services\Validators\ListingValidator;
+use Swapshop\Listing;
+use Swapshop\Product;
 
 class ListingController extends \BaseController
 {
-	protected $listingRepository;
-	protected $productRepository;
-	protected $purchaseRepository;
-	protected $listingValidator;
 
-	public function __construct(ListingRepositoryInterface $listingRepository, ProductRepositoryInterface $productRepository, PurchaseRepositoryInterface $purchaseRepository, ListingValidator $listingValidator)
-	{
-		$this->listingRepository = $listingRepository;
-		$this->productRepository = $productRepository;
-		$this->listingValidator = $listingValidator;
-		$this->purchaseRepository = $purchaseRepository;
-	}
+    public function __construct(Listing $listing, Product $product)
+    {
+        $this->listing = $listing;
+        $this->product = $product;
+    }
 
-	// CRUD Functions
+    public function getIndex($product)
+    {
+        if(is_numeric($product))
+        {
+            $product = $this->product->find($product);
+        }
+        else
+        {
+            $product = $this->product->where('slug', $product)->first();
+        }
 
-	public function getShow($listingID)
-	{
-		$listing = $this->listingRepository->findWith($listingID,array('user'));
+        return \View::make('products.listings', compact('product'));
+    }
 
-		return \View::make('listings.show', compact('listing'));
-	}
+    public function getShow($listingID)
+    {
+        $listing = $this->listing->findOrFail($listingID);
 
-	public function getCreate()
-	{
-		$products = $this->productRepository->all();
+        return \View::make('listings.show', compact('listing'));
+    }
 
-		return \View::make('listings.create', compact('products'));
-	}
+    public function getCreate()
+    {
+        $products = $this->product->lists('name', 'id');
 
-	public function postCreate()
-	{
-		$input = \Input::only('product_id', 'quantity', 'price', 'condition', 'notes');
-		
-		$input['user_id'] = \Auth::user();
-		$input['active'] = true;
-		
-		$v = new $this->listingValidator($input);
+        return \View::make('listings.create', compact('products'));
+    }
 
-		if($v->passes())
-		{
-			// create listing in data store
-			$listing = $this->listingRepository->create($input);
-	
-			return \Redirect::action('Swapshop\Controllers\ProductController@getListings', $input['product_id'])
-				->with('message','Listing created');
-		}	
+    public function postStore()
+    {
+        $input = \Input::only('product_id', 'quantity', 'price', 'condition', 'notes');
 
-		return \Redirect::action('Swapshop\Controllers\ListingController@getCreate')
-			->withErrors($v->errors)
-			->withInput()
-			->with('error','Error creating Listing');
+        $input['user_id'] = \Auth::user();
+        $input['active'] = true;
 
-	}
-	public function getEdit($listingID)
-	{
-		$listing = $this->listingRepository->find($listingID);
-		$products = $this->productRepository->all();
+        $listing = $this->listing->newInstance();
 
-		return \View::make('listings.edit', compact('listing', 'products'));
-	}
+        $listing->fill($input);
 
-	public function postEdit($listingID)
-	{
-		$input = \Input::only('product_id', 'quantity', 'price', 'condition', 'notes');
+        if($listing->save())
+        {   
+            return \Redirect::route('listings.edit', $listing->id)
+                ->withMessage('Listing Created Successfully');
+        }
 
-		$v = new $this->listingValidator($input);
+        return \Redirect::back()
+            ->withErrors($listing->errors())
+            ->withError('Error creating Listing');
 
-		if($v->passes())
-		{
-			// create listing in data store
-			$listing = $this->listingRepository->update($listingID, $input);
-	
-			return \Redirect::action('Swapshop\Controllers\ProductController@getListings', $input['product_id'])
-				->with('message','Listing created');
-		}	
+    }
 
-		return \Redirect::action('Swapshop\Controllers\ListingController@getCreate')
-			->withErrors($v->errors);
-	}
+    public function getEdit($listingID)
+    {
+        $listing = $this->listing->findOrFail($listingID);
+        $products = $this->product->lists('name', 'id');
 
-	public function getDelete($listingID)
-	{
-		
-	}
+        return \View::make('listings.edit', compact('listing', 'products'));
+    }
 
-	public function deleteDelete($listingID)
-	{
-		
-	}
+    public function putUpdate($listingID)
+    {
+        $input = \Input::only('product_id', 'quantity', 'price', 'condition', 'notes');
 
-	public function getMarkSold($listingID)
-	{
-		$this->listingRepository->update($listingID, array('active' => false, 'quantity' => 0));
+        $listing = $this->listing->findOrFail($listingID);
 
-		return \Redirect::back();
-	}
+        $listing->fill($input);
 
-	// Purchase Listing
+        if($listing->save())
+        {   
+            return \Redirect::route('listings.edit', $listing->id)
+                ->withMessage('Listing Created Successfully');
+        }
 
-	public function getPurchase($listingID)
-	{
-		$listing = $this->listingRepository->findWith($listingID, array('product','seller'));
-
-		return \View::make('listings.purchase', compact('listing'));
-
-	}
-
-	public function postPurchase($listingID)
-	{
-		$purchaseQuantity = \Input::get('quantity');
-		$purchaseTotal = \Input::get('total');
-		$message = \Input::get('message');
-
-		$listing = $this->listingRepository->find($listingID);
-
-		// remove purchased quantity from listing
-		$quantity = $listing['quantity'] - $purchaseQuantity;
-		$this->listingRepository->update($listingID, compact('quantity'));
-
-		// prepare purchase data
-		$purchase['listing_id'] = $listingID;
-		$purchase['total'] = $purchaseTotal;
-		$purchase['quantity'] = $purchaseQuantity;
-		$purchase['user_id'] = \Auth::user();
-		$purchase['message'] = $message;
-
-		// create purchase in database
-		$purchase = $this->purchaseRepository->create($purchase);
-		
-		// retrieve purchase with buyer and seller from the database
-		$purchase = $this->purchaseRepository->findWith($purchase['id'], array('user', 'listing.user','listing.product'));
-		
-		$sellerEmail = $purchase['listing']['user']['email'];
-		$buyerEmail = $purchase['user']['email'];
-
-		
-		// send email
-		\Mail::queue('emails.purchase', compact('purchase'), function($message) use ($sellerEmail, $buyerEmail) {
-			$message->from($buyerEmail);
-			$message->to($sellerEmail)->subject('Swapshop Sale');
-		});
-
-		return \View::make('purchases.success', compact('purchase'));
-
-	}
+        return \Redirect::back()
+            ->withErrors($listing->errors())
+            ->withError('Error creating Listing');
+    }
 
 }

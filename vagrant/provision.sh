@@ -38,13 +38,14 @@ EOF
 echo "--- Allow Remote MySQL ---"
 sudo sed -i "s/bind-address = 127.0.0.1/#bind-address = 0.0.0.0"
 mysql -u root -proot -e "GRANT ALL PRIVILEGES ON *.* TO  'root'@'%'  IDENTIFIED  BY  'root'; FLUSH PRIVILEGES;"
+sudo /etc/init.d/mysql restart
 
 echo "--- Enabling mod-rewrite ---"
 sudo a2enmod rewrite
  
 echo "--- Setting document root ---"
-sudo rm -rf /var/www
-sudo ln -fs /vagrant/public /var/www
+sudo rm -rf /var/www/html
+sudo ln -fs /vagrant/public /var/www/html
  
 echo "--- Turn on errors ---"
 sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php5/apache2/php.ini

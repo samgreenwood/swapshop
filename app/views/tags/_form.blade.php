@@ -1,2 +1,3 @@
-{{Former::text('name')}}
-{{Former::actions()->primary_submit('Submit')->inverse_reset('Reset')}}
+    {{Former::text('name')}}
+    {{Former::submit('Save')->class('btn btn-primary')}}
+    <a href="/tags" class="btn btn-default">Cancel</a>

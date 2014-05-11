@@ -38,6 +38,13 @@ Route::filter('auth', function()
 	if (Auth::guest()) return Redirect::guest('login');
 });
 
+Route::filter('admin', function()
+{
+    $userID = Auth::user();
+    $user = Swapshop\User::find($userID);
+
+    if(!$user->isAdmin()) return \Redirect::to('/');
+});
 
 Route::filter('auth.basic', function()
 {

@@ -17,6 +17,10 @@ return array(
 
 	'default' => 'beanstalkd',
 
+	'failed' => array(
+	    'database' => 'mysql', 'table' => 'failed_jobs',
+	),
+
 	/*
 	|--------------------------------------------------------------------------
 	| Queue Connections
