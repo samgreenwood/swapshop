@@ -121,7 +121,6 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Swapshop\SwapshopServiceProvider',
     	'Former\FormerServiceProvider',
-		'Goonwood\ASLdapAuth\ASLdapAuthServiceProvider',
 		'Fideloper\Proxy\ProxyServiceProvider',
 		'Barryvdh\Debugbar\ServiceProvider',
 	),

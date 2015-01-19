@@ -1,9 +1,10 @@
 <?php namespace Swapshop;
 
+use LaravelBook\Ardent\Ardent;
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
-class User extends \Eloquent implements UserInterface, RemindableInterface {
+class User extends Ardent implements UserInterface, RemindableInterface {
 
     protected $fillable = array('id', 'username', 'firstname', 'surname', 'email', 'signature');
 
@@ -43,11 +44,21 @@ class User extends \Eloquent implements UserInterface, RemindableInterface {
         return $this->password;
     }
 
+    /**
+     * Get the remmeber token.
+     *
+     * @return mixed
+     */
     public function getRememberToken()
     {
         return $this->remember_token;
     }
 
+    /**
+     * Set the remember token
+     *
+     * @param string $value
+     */
     public function setRememberToken($value)
     {
         $this->remember_token = $value;
@@ -70,12 +81,7 @@ class User extends \Eloquent implements UserInterface, RemindableInterface {
 
     public function setPasswordAttribute($value)
     {
-        $this->attributes['password'] = Hash::make($value);
-    }
-
-    public function hasRole($role)
-    {
-        return in_array($this->roles, $role);
+        $this->attributes['password'] = \Hash::make($value);
     }
 
     public function listings()
@@ -95,7 +101,7 @@ class User extends \Eloquent implements UserInterface, RemindableInterface {
 
     public function isAdmin()
     {
-        return $this->username == "dragoon";
+        return $this->role == "admin";
     }
 
     public function __toString()

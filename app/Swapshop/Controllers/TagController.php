@@ -4,37 +4,43 @@ use Swapshop\Tag;
 
 class TagController extends \BaseController {
 
-    protected $tag;
-
-	public function __construct(Tag $tag)
-	{
-	    $this->tag = $tag;
-	}
-
+	/**
+	 * @return mixed
+	 */
 	public function getIndex()
 	{
-		$tags = $this->tag->all();
+		$tags = Tag::all();
 
 		return \View::make('tags.index', compact('tags'));
 	}
 
+	/**
+	 * @param $tagID
+	 * @return mixed
+	 */
 	public function getShow($tagID)
 	{
-		$tag = $this->tag->findOrFail($tagID);
+		$tag = Tag::findOrFail($tagID);
 
 		return \View::make('tags.show', compact('tag'));
 	}
 
+	/**
+	 * @return mixed
+	 */
 	public function getCreate()
 	{
 		return \View::make('tags.create');
 	}
 
+	/**
+	 * @return mixed
+	 */
 	public function postStore()
 	{
 		$input = \Input::all();
         
-        $tag = $this->tag->newInstance();
+        $tag = new Tag;
 
         $tag->fill($input);
 
@@ -49,18 +55,26 @@ class TagController extends \BaseController {
             ->withError('Error creating Tag');
 	}
 
+	/**
+	 * @param $tagID
+	 * @return mixed
+	 */
 	public function getEdit($tagID)
 	{
-		$tag = $this->tag->findOrFail($tagID);
+		$tag = Tag::findOrFail($tagID);
 
 		return \View::make('tags.edit', compact('tag'));
 	}
 
+	/**
+	 * @param $tagID
+	 * @return mixed
+	 */
 	public function putUpdate($tagID)
 	{
 		$input = \Input::all();
         
-        $tag = $this->tag->find($tagID);
+        $tag = Tag::find($tagID);
 
         $tag->fill($input);
 
@@ -76,16 +90,24 @@ class TagController extends \BaseController {
 
 	}
 
+	/**
+	 * @param $tagID
+	 * @return mixed
+	 */
 	public function getDelete($tagID)
 	{
-		$tag = $this->tag->findOrFail($tagID);
+		$tag = Tag::findOrFail($tagID);
 
 		return \View::make('tags.delete', compact('tag'));
 	}
 
+	/**
+	 * @param $tagID
+	 * @return mixed
+	 */
 	public function deleteDelete($tagID)
 	{
-	    $this->tag->where('id', $tagID)->delete();
+	    Tag::where('id', $tagID)->delete();
 
 		return \Redirect::route('tags.index')
 			->withMessage('Tag Deleted');

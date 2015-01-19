@@ -15,7 +15,7 @@ return array(
 	|
 	*/
 
-	'default' => 'beanstalkd',
+	'default' => 'sync',
 
 	'failed' => array(
 	    'database' => 'mysql', 'table' => 'failed_jobs',

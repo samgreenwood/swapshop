@@ -17,6 +17,12 @@ class Tag extends Ardent
 		return $this->belongsToMany('Swapshop\Product');
 	}
 
+	public function setNameAttribute($value)
+	{
+		$this->name = $value;
+		$this->slug = \Str::slug($value);
+	}
+
 	public function __toString()
 	{
 		return $this->name;

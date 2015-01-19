@@ -1,6 +1,8 @@
 <?php namespace Swapshop;
 
-class Product extends \Eloquent {
+use LaravelBook\Ardent\Ardent;
+
+class Product extends Ardent {
 
 	protected $fillable = array('name', 'description', 'pdf', 'slug');
 
@@ -11,6 +13,12 @@ class Product extends \Eloquent {
         'pdf'   => 'required',
         'description'   => 'required'
     );
+
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = $value;
+        $this->attributes['slug'] = \Str::slug($value);
+    }
 
 	public function listings()
 	{

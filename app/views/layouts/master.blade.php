@@ -76,8 +76,8 @@
             </li>
             <li style="float: right; padding-right: 20px;">
             {{Former::inline_open('/search')}}
-            {{Former::text('search')}}
-            {{Former::submit()->class('btn btn-primary btn-small')->value('Search')}}
+            {{Former::text('search')->raw()}}
+            {{Former::submit()->class('btn btn-primary btn-small')->value('Search')->raw()}}
             {{Former::close()}}
             </li>
           </ul>

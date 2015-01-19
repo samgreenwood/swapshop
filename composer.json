@@ -1,11 +1,11 @@
 {
 	"require": {
 		"laravel/framework": "4.1.*",
-		"anahkiasen/former": "3.0.*",
-		"goonwood/asldap-auth": "dev-master",
+		"anahkiasen/former": "~3",
 		"pda/pheanstalk": "2.0.*",
 		"fideloper/proxy": "2.0.*",
-		"laravelbook/ardent": "2.4.*"
+		"laravelbook/ardent": "2.4.*",
+		"laracasts/validation": "1.0"
 	},
 	"require-dev": {
         "barryvdh/laravel-debugbar": "1.*"
@@ -35,5 +35,6 @@
 	"config": {
 		"preferred-install": "dist"
 	},
-	"minimum-stability": "dev"
+	"minimum-stability": "dev",
+    "prefer-stable": true
 }

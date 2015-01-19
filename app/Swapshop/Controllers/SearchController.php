@@ -1,26 +1,25 @@
 <?php namespace Swapshop\Controllers;
 
-use Swapshop\Repositories\ProductRepositoryInterface;
+use Swapshop\Product;
 
 class SearchController extends \BaseController {
 
-	protected $productRepository;
-
-	public function __construct(ProductRepositoryInterface $productRepository)
-	{
-		$this->productRepository = $productRepository;
-	}
-
+	/**
+	 * @return mixed
+	 */
 	public function getIndex()
 	{
 		return \View::make('search.index');
 	}
 
+	/**
+	 * @return mixed
+	 */
 	public function postIndex()
 	{
 		$keywords = explode(" ", \Input::get('search'));
 
-		$products = $this->productRepository->allWith(array('tags','images','listings'));
+		$products = Product::with(array('tags','images','listings'))->get();
 
 		$results = array();
 

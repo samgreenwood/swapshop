@@ -1,6 +1,8 @@
 <?php namespace Swapshop;
 
-class Sale extends \Eloquent
+use LaravelBook\Ardent\Ardent;
+
+class Sale extends Ardent
 {
 	protected $table = "swapshop_purchases";
 

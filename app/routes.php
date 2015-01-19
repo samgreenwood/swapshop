@@ -51,14 +51,15 @@ Route::group(array('before' => 'auth'), function()
     Route::post('purchase/{listingid}', array('as' => 'listings.purchase.post', 'uses' => 'Swapshop\Controllers\PurchaseController@postPurchase'))->where('listingid', '[0-9]+');
     
     Route::get('dashboard', array('as' => 'dashboard', 'uses' => 'Swapshop\Controllers\DashboardController@getIndex'));
-    Route::get('my-swapshop', array('as' => 'my-swapshop', 'uses' => 'Swapshop\Controllers\DashboardController@getMySwapshop')); 
+    Route::get('my-swapshop', array('as' => 'my-swapshop', 'uses' => 'Swapshop\Controllers\DashboardController@getMySwapshop'));
+
+    Route::post('search', array('as' => 'search', 'uses' => 'Swapshop\Controllers\SearchController@postIndex'));
 });
 
-Route::get('/', function()
-{
+Route::get('/', function() {
     return \Redirect::route('dashboard');
 });
 
-Route::get('/login', array('as' => 'login', 'uses' => 'Swapshop\Controllers\AuthController@getLogin'));
-Route::post('/login', array('uses' => 'Swapshop\Controllers\AuthController@postLogin'));
+Route::get('/login', array('as' => 'login_path', 'uses' => 'Swapshop\Controllers\AuthController@getLogin'));
+Route::post('/login', array('as' => 'login', 'uses' => 'Swapshop\Controllers\AuthController@postLogin'));
 Route::get('/logout', array('as' => 'logout', 'uses' => 'Swapshop\Controllers\AuthController@getLogout'));

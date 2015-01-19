@@ -40,8 +40,7 @@ Route::filter('auth', function()
 
 Route::filter('admin', function()
 {
-    $userID = Auth::user();
-    $user = Swapshop\User::find($userID);
+    $user = Auth::user();
 
     if(!$user->isAdmin()) return \Redirect::to('/');
 });

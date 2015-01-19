@@ -81,24 +81,3 @@ App::down(function()
 */
 
 require __DIR__.'/../filters.php';
-
-/*
-|--------------------------------------------------------------------------
-| Require The View Composers file
-|--------------------------------------------------------------------------
-|
-| Next we will load the view composers file for the application. This gives us
-| a nice separate location to store our view composers instead of putting them 
-| all in the main routes file.
-|
-*/
-
-require __DIR__.'/../composers.php';
-
-Auth::extend('asldap', function()
-{
-    return new Illuminate\Auth\Guard(
-        new Goonwood\ASLdapAuth\ASLdapUserProvider(),
-        App::make('Illuminate\Session\Store')
-    );
-});

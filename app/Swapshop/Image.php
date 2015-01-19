@@ -1,6 +1,8 @@
 <?php namespace Swapshop;
 
-class Image extends \Eloquent {
+use LaravelBook\Ardent\Ardent;
+
+class Image extends Ardent {
 
 	protected $fillable = array('imageable_id', 'imageable_type', 'image');
 

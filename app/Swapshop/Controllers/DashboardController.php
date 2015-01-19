@@ -4,13 +4,6 @@ use Swapshop\User;
 
 class DashboardController extends \BaseController
 {
-    protected $user;
-
-    public function __construct(User $user)
-    {
-        $this->user = $user;
-    }
-
     public function getIndex()
     {
         return \View::make('home');
@@ -18,8 +11,7 @@ class DashboardController extends \BaseController
 
     public function getMySwapshop()
     {
-        $userID = \Auth::user();
-        $user = $this->user->findOrFail($userID);
+        $user = \Auth::user();
         return \View::make('users.dashboard', compact('user'));
     }
 
