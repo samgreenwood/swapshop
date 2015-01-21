@@ -10,7 +10,8 @@
 	},
 	"require-dev": {
         "barryvdh/laravel-debugbar": "1.*",
-		"phpunit/phpunit": "~4"
+		"phpunit/phpunit": "~4",
+		"mockery/mockery": "0.9"
 	},
 	"autoload": {
 		"psr-0": {
