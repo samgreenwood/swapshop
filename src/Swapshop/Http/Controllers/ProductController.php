@@ -1,10 +1,10 @@
-<?php namespace Swapshop\Controllers;
+<?php namespace Swapshop\Http\Controllers;
 
 use Swapshop\Product;
 use Swapshop\Image;
 use Swapshop\Tag;
 
-class ProductController extends \BaseController
+class ProductController extends BaseController
 {
 
     /**

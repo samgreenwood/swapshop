@@ -1,21 +1,22 @@
 {
 	"require": {
-		"laravel/framework": "4.1.*",
+	    "php": ">=5.5.0",
+		"laravel/framework": "4.2.*",
 		"anahkiasen/former": "~3",
 		"pda/pheanstalk": "2.0.*",
 		"fideloper/proxy": "2.0.*",
 		"laravelbook/ardent": "2.4.*",
-		"laracasts/validation": "1.0"
+		"laracasts/validation": "~1"
 	},
 	"require-dev": {
-        "barryvdh/laravel-debugbar": "1.*"
+        "barryvdh/laravel-debugbar": "1.*",
+		"phpunit/phpunit": "~4"
 	},
 	"autoload": {
 		"psr-0": {
-			"Swapshop": "app/"
+			"Swapshop": "src/"
 		},
 		"classmap": [
-			"app/controllers",
 			"app/database/migrations",
 			"app/database/seeds",
 			"app/tests/TestCase.php"

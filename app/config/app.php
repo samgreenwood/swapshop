@@ -119,10 +119,14 @@ return array(
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
-		'Swapshop\SwapshopServiceProvider',
+		'Swapshop\Providers\FilterServiceProvider',
+		'Swapshop\Providers\RoutingServiceProvider',
+		'Swapshop\Providers\ErrorServiceProvider',
+		'Swapshop\Providers\SwapshopServiceProvider',
     	'Former\FormerServiceProvider',
 		'Fideloper\Proxy\ProxyServiceProvider',
 		'Barryvdh\Debugbar\ServiceProvider',
+		'Laracasts\Validation\ValidationServiceProvider'
 	),
 
 	/*
@@ -191,5 +195,7 @@ return array(
 		'Former'          => 'Former\Facades\Former'
 
 	),
+
+	'cipher' => MCRYPT_RIJNDAEL_256
 
 );

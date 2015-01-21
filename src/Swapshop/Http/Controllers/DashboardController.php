@@ -1,8 +1,6 @@
-<?php namespace Swapshop\Controllers;
+<?php namespace Swapshop\Http\Controllers;
 
-use Swapshop\User;
-
-class DashboardController extends \BaseController
+class DashboardController extends BaseController
 {
     public function getIndex()
     {

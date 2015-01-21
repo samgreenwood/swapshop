@@ -1,4 +1,4 @@
-<?php namespace Swapshop\Controllers;
+<?php namespace Swapshop\Http\Controllers;
 
 use \View;
 use \Redirect;

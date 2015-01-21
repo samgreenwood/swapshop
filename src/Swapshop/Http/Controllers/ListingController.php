@@ -1,9 +1,9 @@
-<?php namespace Swapshop\Controllers;
+<?php namespace Swapshop\Http\Controllers;
 
 use Swapshop\Listing;
 use Swapshop\Product;
 
-class ListingController extends \BaseController
+class ListingController extends BaseController
 {
 
     /**

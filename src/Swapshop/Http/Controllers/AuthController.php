@@ -1,6 +1,6 @@
-<?php namespace Swapshop\Controllers;
+<?php namespace Swapshop\Http\Controllers;
 
-class AuthController extends \BaseController {
+class AuthController extends BaseController {
 
 	/**
 	 * Show the login form
