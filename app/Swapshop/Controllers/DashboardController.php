@@ -1,12 +1,14 @@
 <?php namespace Swapshop\Controllers;
 
 use Swapshop\User;
+use Swapshop\Tag;
 
 class DashboardController extends \BaseController
 {
     public function getIndex()
     {
-        return \View::make('home');
+	$tags = Tag::all();
+        return \View::make('home', compact('tags'));
     }
 
     public function getMySwapshop()

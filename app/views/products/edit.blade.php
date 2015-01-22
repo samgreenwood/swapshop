@@ -1,16 +1,27 @@
 @extends('layouts.master')
 
 @section('content')
-<div class="row-fluid">
-	<div class="span6">
-		<h1>Edit Product</h1>
+<div class="row">
+	<div class="col-md-12">
+		<div class="page-header">
+			<h1>
+				<i class="fa fa-list-ul"></i>
+				Products
+				<small>Edit</small>
+			</h1>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-8">
+		<h2>Details</h2>
 		{{Former::open(URL::route('products.update', $product->id))->enctype('multipart/form-data')->method('PUT')}}
 		{{Former::populate($product)}}
 		@include('products._form')
 		{{Former::close()}}
 	</div>
-	<div class="span6">
-	<h1>Images</h1>
+	<div class="col-md-4">
+		<h2>Images</h2>
 		@foreach($product->images as $image)
 		<img src="/images/products/{{$product->id}}/{{$image->image}}">
 		{{Former::open('')->method('DELETE')}}
@@ -18,5 +29,4 @@
 		@endforeach
 	</div>
 </div>
-
 @stop

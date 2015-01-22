@@ -10,11 +10,10 @@ class ListingController extends \BaseController
      * @param $product
      * @return mixed
      */
-    public function getIndex($product)
+    public function getIndex()
     {
-        $product = is_numeric($product) ? Product::find($product) : Product::where('slug', $product)->first();
-
-        return \View::make('products.listings', compact('product'));
+	$listings = Listing::all();
+        return \View::make('listings.index', compact('listings'));
     }
 
     /**
