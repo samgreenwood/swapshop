@@ -1,12 +1,15 @@
 @extends('layouts.master')
 
 @section('content')
-<h1>Welcome to Swapshop</h1>
-
-<p><h3>Welcome to Swapshop, where you can buy and sell all the things!</h3><p>
-<div class="well">
-<p>If you find any issues please report them <a href="http://github.com/samgreenwood/swapshop">here</a></p>
-<p>Happy Shopping!</p>
+<div class="row">
+	<div class="col-md-8">
+		<div class="jumbotron">
+			<h2>Welcome to Swap Shop!</h2>
+			<p>Start shopping by selecting a tag from the right or by viewing <a href="/listings">all listings</a>.</p>
+		</div>
+	</div>
+	<div class="col-md-4">
+		@include('tags.browser')
+	</div>
 </div>
-</table>
 @stop
