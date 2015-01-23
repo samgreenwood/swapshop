@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 use Swapshop\Image\Image;
 use Swapshop\Image\Imageable;
-use Swapshop\Listing;
+use Swapshop\Listing\Listing;
 use Swapshop\Tag\Tag;
 use Swapshop\Tag\Tagable;
 

@@ -18,7 +18,7 @@ class Listing extends Model implements Imageable
      */
     public function product()
     {
-        return $this->belongsTo('Swapshop\Product');
+        return $this->belongsTo('Swapshop\Product\Product');
     }
 
     /**
