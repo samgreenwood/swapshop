@@ -22,7 +22,7 @@ class SwapshopServiceProvider extends ServiceProvider
         $this->app->singleton(ImageRepositoryInterface::class, EloquentImageRepository::class);
         $this->app->singleton(ListingRepositoryInterface::class, EloquentListingRepository::class);
 
-        $this->app['view']->composer('layouts.master', function ($view) {
+        $this->app['view']->composer(['layouts.master', 'tags.browser'], function ($view) {
 
             $view->with('user', \Auth::user());
             $view->with('tags', $this->app[TagRepositoryInterface::class]->getAll());
