@@ -1,8 +1,5 @@
 <?php namespace Swapshop\Product;
 
-use Swapshop\Product\Product;
-use Swapshop\Product\ProductRepositoryInterface;
-
 class EloquentProductRepository implements ProductRepositoryInterface
 {
     /**
@@ -27,6 +24,14 @@ class EloquentProductRepository implements ProductRepositoryInterface
     public function getAll()
     {
         return Product::all();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAllKeyValue()
+    {
+        return Product::lists('name', 'id');
     }
 
     /**

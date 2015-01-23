@@ -67,4 +67,14 @@ class BaseController extends Controller
         return $form;
     }
 
+    /**
+     * @param $viewName
+     * @param array $data
+     * @return mixed
+     */
+    public function render($viewName, array $data = [])
+    {
+        return $this->get('view')->make($viewName, $data);
+    }
+
 }

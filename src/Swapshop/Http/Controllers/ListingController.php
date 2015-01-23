@@ -1,31 +1,52 @@
 <?php namespace Swapshop\Http\Controllers;
 
-use Swapshop\Listing;
+use Swapshop\Image\ImageUploader;
+use Swapshop\Listing\Forms\CreateListingForm;
+use Swapshop\Listing\Forms\UpdateListingForm;
+use Swapshop\Listing\Listing;
+use Swapshop\Listing\ListingRepositoryInterface;
 use Swapshop\Product;
 
 class ListingController extends BaseController
 {
+    /**
+     * @var ListingRepositoryInterface
+     */
+    private $listingRepository;
 
     /**
-     * @param $product
-     * @return mixed
+     * @var ImageUploader
      */
-    public function getIndex($product)
-    {
-        $product = is_numeric($product) ? Product::find($product) : Product::where('slug', $product)->first();
+    private $imageUploader;
 
-        return \View::make('products.listings', compact('product'));
+    /**
+     * @param ListingRepositoryInterface $listingRepository
+     */
+    public function __construct(ListingRepositoryInterface $listingRepository, ImageUploader $imageUploader)
+    {
+        $this->listingRepository = $listingRepository;
+        $this->imageUploader = $imageUploader;
     }
 
     /**
-     * @param $listingID
      * @return mixed
      */
-    public function getShow($listingID)
+    public function getIndex()
     {
-        $listing = Listing::findOrFail($listingID);
+        $listings = $this->listingRepository->getAll();
 
-        return \View::make('listings.show', compact('listing'));
+        return $this->render('products.listings', compact('listings'));
+    }
+
+    /**
+     * @param $listingId
+     * @return mixed
+     */
+    public function getShow($listingId)
+    {
+        $listing = $this->listingRepository->getById($listingId);
+
+        return $this->render('listings.show', compact('listing'));
     }
 
     /**
@@ -33,9 +54,7 @@ class ListingController extends BaseController
      */
     public function getCreate()
     {
-        $products = Product::lists('name', 'id');
-
-        return \View::make('listings.create', compact('products'));
+        return $this->render('listings.create');
     }
 
     /**
@@ -43,58 +62,66 @@ class ListingController extends BaseController
      */
     public function postStore()
     {
-        $input = \Input::only('product_id', 'quantity', 'price', 'condition', 'notes');
-
-        $input['user_id'] = \Auth::user()->getKey();
-        $input['active'] = true;
+        $form = $this->form(CreateListingForm::class);
 
         $listing = new Listing;
+        $listing->product_id = $form->get('product_id');
+        $listing->user_id = $form->get('user_id');
+        $listing->price = $form->get('price');
+        $listing->quantity = $form->get('quantity');
+        $listing->condition = $form->get('condition');
+        $listing->user_id = $this->get('auth')->user()->id;
 
-        $listing->fill($input);
+        $this->listingRepository->add($listing);
 
-        if ($listing->save()) {
-            return \Redirect::route('listings.edit', $listing->id)
-                ->withMessage('Listing Created Successfully');
+        if ($form->has('images')) {
+            $images = $form->get('images');
+            foreach ($images as $image) $this->imageUploader->attachToImageable($listing, $image);
         }
 
-        return \Redirect::back()
-            ->withErrors($listing->errors())
-            ->withError('Error creating Listing');
+        return $this->redirect()->route('listings.edit', $listing->id)
+            ->withMessage('Listing Created Successfully');
 
     }
 
     /**
-     * @param $listingID
+     * @param $listingId
      * @return mixed
      */
-    public function getEdit($listingID)
+    public function getEdit($listingId)
     {
-        $listing = Listing::findOrFail($listingID);
-        $products = Product::lists('name', 'id');
+        $listing = $this->listingRepository->getById($listingId);
 
-        return \View::make('listings.edit', compact('listing', 'products'));
+        return $this->render('listings.edit', compact('listing', 'products'));
     }
 
     /**
-     * @param $listingID
+     * @param $listingId
      * @return mixed
      */
-    public function putUpdate($listingID)
+    public function putUpdate($listingId)
     {
-        $input = \Input::only('product_id', 'quantity', 'price', 'condition', 'notes');
+        $form = $this->form(UpdateListingForm::class);
 
-        $listing = Listing::findOrFail($listingID);
+        $listing = new Listing;
+        $listing->product_id = $form->get('product_id');
+        $listing->user_id = $form->get('user_id');
+        $listing->price = $form->get('price');
+        $listing->quantity = $form->get('quantity');
+        $listing->condition = $form->get('condition');
+        $listing->user_id = $this->get('auth')->user()->id;
 
-        $listing->fill($input);
+        $this->listingRepository->add($listing);
 
-        if ($listing->save()) {
-            return \Redirect::route('listings.edit', $listing->id)
-                ->withMessage('Listing Created Successfully');
+        if ($form->has('images')) {
+            $images = $form->get('images');
+            foreach ($images as $image) $this->imageUploader->attachToImageable($listing, $image);
         }
 
-        return \Redirect::back()
-            ->withErrors($listing->errors())
-            ->withError('Error creating Listing');
+        return $this->redirect()->route('listings.edit', $listing->id)
+            ->withMessage('Listing Created Successfully');
+
+
     }
 
 }

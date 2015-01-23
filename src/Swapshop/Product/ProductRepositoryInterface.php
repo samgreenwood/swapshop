@@ -15,4 +15,6 @@ interface ProductRepositoryInterface
     public function getBySlug($slug);
 
     public function getBySlugWithListings($slug);
+
+    public function getAllKeyValue();
 }
