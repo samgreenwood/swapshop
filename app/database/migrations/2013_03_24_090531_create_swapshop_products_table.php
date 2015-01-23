@@ -19,6 +19,7 @@ class CreateSwapshopProductsTable extends Migration {
 			$table->string('slug');
 			$table->string('pdf');
 			$table->string('description')->nullable();
+			$table->softDeletes();
 			$table->timestamps();
 		});
 	}
