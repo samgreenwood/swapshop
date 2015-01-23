@@ -24,6 +24,7 @@ class CreateSwapshopListingsTable extends Migration {
 			$table->foreign('product_id')->references('id')->on('swapshop_products');
 			$table->integer('user_id')->unsigned();
 			$table->foreign('user_id')->references('id')->on('swapshop_users');
+			$table->softDeletes();
 			$table->timestamps();
 		});
 	}

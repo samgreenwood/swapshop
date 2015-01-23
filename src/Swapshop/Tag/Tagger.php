@@ -36,13 +36,13 @@ class Tagger
 
             $slug = $this->str->slug($tagName);
 
-            if ( ! $t = $this->tagRepository->getBySlug($slug)) {
+            if ( ! $tag = $this->tagRepository->getBySlug($slug)) {
                 $tag = new Tag;
                 $tag->name = $tagName;
-                $this->tagRepository->save($tag);
+                $this->tagRepository->add($tag);
             }
 
-            $tagArr[] = $tag;
+            $tags[] = $tag;
         }
 
         $tagable->setTags($tags);

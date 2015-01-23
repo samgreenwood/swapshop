@@ -1,29 +1,60 @@
 <?php namespace Swapshop\Http\Controllers;
 
-use Swapshop\Product;
 use Swapshop\Image;
+use Swapshop\Image\ImageUploader;
+use Swapshop\Product\Forms\CreateProductForm;
+use Swapshop\Product\Forms\EditProductForm;
+use Swapshop\Product\Product;
+use Swapshop\Product\ProductRepositoryInterface;
 use Swapshop\Tag;
+use Swapshop\Tag\Tagger;
 
 class ProductController extends BaseController
 {
+    /**
+     * @var ProductRepositoryInterface
+     */
+    private $productRepository;
+
+    /**
+     * @var Tagger
+     */
+    private $tagger;
+
+    /**
+     * @var ImageUploader
+     */
+    private $imageUploader;
+
+    /**
+     * @param ProductRepositoryInterface $productRepository
+     * @param Tagger $tagger
+     * @param ImageUploader $imageUploader
+     */
+    public function __construct(ProductRepositoryInterface $productRepository, Tagger $tagger, ImageUploader $imageUploader)
+    {
+        $this->productRepository = $productRepository;
+        $this->tagger = $tagger;
+        $this->imageUploader = $imageUploader;
+    }
 
     /**
      * @return mixed
      */
     public function getIndex()
     {
-        $products = Product::paginate('10');
+        $products = $this->productRepository->getAllPaged();
 
         return \View::make('products.index', compact('products'));
     }
 
     /**
-     * @param $productID
+     * @param $productId
      * @return mixed
      */
-    public function getShow($productID)
+    public function getShow($productId)
     {
-        $product = Product::findOrFail($productID);
+        $product = $this->productRepository->getById($productId);
 
         return \View::make('products.show', compact('product'));
     }
@@ -33,8 +64,6 @@ class ProductController extends BaseController
      */
     public function getCreate()
     {
-        $tags = Tag::lists('name', 'id');
-
         return \View::make('products.create', compact('tags'));
     }
 
@@ -43,63 +72,72 @@ class ProductController extends BaseController
      */
     public function postStore()
     {
-        $input = \Input::only('name', 'pdf', 'description');
-        $tags = \Input::get('tags') ? \Input::get('tags') : array();
+        $form = $this->form(CreateProductForm::class);
+
+        $name = $form->get('name');
+        $pdf = $form->get('pdf');
+        $description = $form->get('description');
+        $tags = $form->get('tags') ? $form->get('tags') : [];
+        $tags = explode(",", $tags);
 
         $product = new Product;
+        $product->name = $name;
+        $product->pdf = $pdf;
+        $product->description = $description;
 
-        $product->fill($input);
+        $this->productRepository->add($product);
 
-        if ($product->save()) {
-            $product->tags()->sync($tags);
-            $this->uploadImages($product->id);
+        $this->tagger->tag($product, $tags);
 
-            return \Redirect::route('products.show', $product->id)
-                ->withMessage('Product Created Successfully');
+        if ($form->has('image')) {
+            $image = $form->get('image');
+            $this->imageUploader->attachToImageable($product, $image);
         }
 
-        return \Redirect::back()
-            ->withErrors($product->errors())
-            ->withError('Error creating Product');
+        return \Redirect::route('products.show', $product->id);
     }
 
     /**
-     * @param $productID
+     * @param $productId
      * @return mixed
      */
-    public function getEdit($productID)
+    public function getEdit($productId)
     {
-        $product = Product::findOrFail($productID);
-        $productTags = $product->tags()->lists('tag_id');
-        $tags = Tag::lists('name', 'id');
+        $product = $this->productRepository->getById($productId);
+        $productTags = implode(',', $product->getTagsAsString());
 
-        return \View::make('products.edit', compact('product', 'tags', 'productTags'));
+        return \View::make('products.edit', compact('product', 'productTags'));
     }
 
     /**
-     * @param $productID
+     * @param $productId
      * @return mixed
      */
-    public function putUpdate($productID)
+    public function putUpdate($productId)
     {
-        $input = \Input::only('name', 'pdf', 'description');
-        $tags = \Input::get('tags') ? \Input::get('tags') : array();
+        $form = $this->form(EditProductForm::class);
 
-        $product = Product::findOrFail($productID);
+        $name = $form->get('name');
+        $pdf = $form->get('pdf');
+        $description = $form->get('description');
+        $tags = $form->get('tags') ? $form->get('tags') : [];
+        $tags = explode(",", $tags);
 
-        $product->fill($input);
+        $product = $this->productRepository->getById($productId);
+        $product->name = $name;
+        $product->pdf = $pdf;
+        $product->description = $description;
 
-        if ($product->save()) {
-            $product->tags()->sync($tags);
-            $this->uploadImages($product->id);
+        $this->productRepository->add($product);
 
-            return \Redirect::route('products.show', $product->id)
-                ->withMessage('Product Created Successfully');
+        $this->tagger->tag($product, $tags);
+
+        if ($form->has('image')) {
+            $image = $form->get('image');
+            $this->imageUploader->attachToImageable($product, $image);
         }
 
-        return \Redirect::back()
-            ->withErrors($product->errors())
-            ->withError('Error creating Product');
+        return \Redirect::route('products.show', $product->id);
 
     }
 

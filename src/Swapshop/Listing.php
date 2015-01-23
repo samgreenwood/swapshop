@@ -1,8 +1,12 @@
 <?php namespace Swapshop;
 
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Database\Eloquent\SoftDeletingTrait;
 use LaravelBook\Ardent\Ardent;
 
 class Listing extends Ardent {
+
+	use SoftDeletingTrait;
 
 	protected $fillable = array('active', 'quantity', 'price', 'condition', 'notes', 'product_id', 'user_id');
 

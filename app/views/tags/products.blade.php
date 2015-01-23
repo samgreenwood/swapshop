@@ -7,7 +7,7 @@
 @section('content')
 <h1>{{$tag->name}}</h1>
 <hr />
-		@foreach($tag->products->chunk(4) as $productRow)
+		@foreach($tag->products->chunk(4) as $productRow)im gunna
         <div class="row-fluid">
 		    @foreach($productRow as $product)
     			@if($product->isSellable())

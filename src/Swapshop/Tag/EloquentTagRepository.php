@@ -55,4 +55,12 @@ class EloquentTagRepository implements TagRepositoryInterface
     {
         return Tag::with(['products'])->where('slug', $slug)->first();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getAllKeyValue()
+    {
+        return Tag::lists('name', 'id');
+    }
 }

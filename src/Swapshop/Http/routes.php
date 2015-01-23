@@ -13,6 +13,9 @@
 
 Route::group(array('namespace' => 'Swapshop\Http\Controllers'), function () {
 
+    Route::group(['prefix' => 'api'], function () {
+        Route::get('/tags', ['as' => 'api.tags.index', 'uses' => 'Api\TagController@getIndex']);
+    });
 
     Route::group(array('before' => 'auth'), function () {
         Route::group(array('before' => 'admin'), function () {

@@ -13,4 +13,6 @@ interface TagRepositoryInterface
     public function getBySlug($slug);
 
     public function getBySlugWithProducts($slug);
+
+    public function getAllKeyValue();
 }

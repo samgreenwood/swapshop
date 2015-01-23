@@ -40,4 +40,13 @@ class BaseForm extends FormValidator
         return null;
     }
 
+    /**
+     * @param $key
+     * @return bool
+     */
+    public function has($key)
+    {
+        if (array_key_exists($key, $this->formData)) return (bool) $this->formData[$key];
+    }
+
 }

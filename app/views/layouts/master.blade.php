@@ -28,6 +28,21 @@
         {
           $('select').select2();
 
+          $.getJSON('/api/tags', function(tags){
+
+           var selectTags = [];
+
+           $.each(tags, function(id, tag)
+           {
+            selectTags.push(tag)
+           });
+
+            $('.tags').select2({
+              multiple: true,
+              tags: selectTags
+            });
+          })
+
           @yield('jquery');
         });
       </script>
