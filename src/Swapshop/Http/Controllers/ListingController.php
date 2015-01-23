@@ -35,7 +35,7 @@ class ListingController extends BaseController
     {
         $listings = $this->listingRepository->getAll();
 
-        return $this->render('products.listings', compact('listings'));
+        return $this->render('listings.index', compact('listings'));
     }
 
     /**
